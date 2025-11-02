@@ -1,0 +1,31 @@
+{{- if .Values.zipkin.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: zipkin
+spec:
+  replicas: {{ .Values.zipkin.replicaCount}}
+  selector:
+    matchLabels:
+      app: zipkin
+  template:
+    metadata:
+      labels:
+        app: zipkin
+    spec:
+      containers:
+        - name: zipkin
+          image: {{ .Values.zipkin.image.repository }}:{{ .Values.zipkin.image.tag }}
+          ports:
+            - containerPort: {{ .Values.zipkin.service.port }}
+          resources:
+            requests:
+              memory: {{ .Values.zipkin.resources.requests.memory }}
+              cpu: {{ .Values.zipkin.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.zipkin.resources.limits.memory }}
+              cpu: {{ .Values.zipkin.resources.limits.cpu }}
+{{- end }}

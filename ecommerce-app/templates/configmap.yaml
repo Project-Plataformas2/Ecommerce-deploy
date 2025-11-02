@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-config
+  namespace: {{ .Values.global.namespace }}
+data:
+# Configuraciones globales de Spring Boot
+  SPRING_PROFILES_ACTIVE: {{ .Values.global.springProfilesActive | quote }}
+  SPRING_ZIPKIN_BASE_URL: {{ .Values.global.zipkinBaseUrl | quote }}
+  SPRING_CONFIG_IMPORT: {{ printf "optional:configserver:%s" .Values.global.configServerUrl | quote }}
+  EUREKA_CLIENT_REGION: {{ .Values.global.eurekaRegion | quote }}
+  EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT: {{ .Values.global.eurekaAvailabilityZones | quote }}
+  EUREKA_CLIENT_SERVICEURL_MYZONE: {{ .Values.global.eurekaServiceUrlMyzone | quote }}
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: {{ .Values.global.eurekaServiceUrlDefaultZone | quote }}
+  EUREKKA_INSTANCE_HOSTNAME: "favourite-service"
+  EUREKA_INSTANCE_PREFER_IP_ADDRESS: "false"
+
+# Otras configuraciones específicas de servicios pueden añadirse aquí
