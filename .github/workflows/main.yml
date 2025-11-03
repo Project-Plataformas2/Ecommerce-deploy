@@ -25,13 +25,13 @@ jobs:
       # 3️Validar sintaxis del Chart
       - name: Lint Helm Chart
         run: |
-          cd Ecommerce-deploy/ecommerce-app
+          cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
 
       # 4️Renderizar las plantillas usando values-dev.yaml
       - name: Validate Templates
         run: |
-          cd Ecommerce-deploy/ecommerce-app
+          cd ecommerce-app/
           helm template zipkin-test ./ \
             -f values-dev.yaml \
             --namespace dev \
@@ -45,7 +45,7 @@ jobs:
       # 6️Instalar el chart en el clúster temporal (para verificar despliegue)
       - name: Helm Install Test
         run: |
-          cd Ecommerce-deploy/ecommerce-app
+          cd ecommerce-app/
           helm install zipkin-test ./ \
             -f values-dev.yaml \
             --namespace dev \
