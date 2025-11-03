@@ -1,0 +1,57 @@
+name: Verify Helm Chart (ecommerce-app)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  helm-verify:
+    name: Lint & Verify Helm Chart
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clonar el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #  Instalar Helm
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          helm version
+
+      # 3️Validar sintaxis del Chart
+      - name: Lint Helm Chart
+        run: |
+          cd ecommerce-charts/ecommerce-app
+          helm lint .
+
+      # 4️Renderizar las plantillas usando values-dev.yaml
+      - name: Validate Templates
+        run: |
+          cd ecommerce-charts/ecommerce-app
+          helm template zipkin-test ./ \
+            -f values-dev.yaml \
+            --namespace dev \
+            --set zipkin.enabled=true \
+            --set global.namespace=dev
+
+      # 5️ Crear clúster local de prueba con Kind
+      - name: Create Kind cluster
+        uses: helm/kind-action@v1.8.0
+
+      # 6️Instalar el chart en el clúster temporal (para verificar despliegue)
+      - name: Helm Install Test
+        run: |
+          cd ecommerce-charts/ecommerce-app
+          helm install zipkin-test ./ \
+            -f values-dev.yaml \
+            --namespace dev \
+            --create-namespace \
+            --set zipkin.enabled=true \
+            --set global.namespace=dev
+
+          # Listar los pods para confirmar que el chart se despliega
+          kubectl get pods -n dev
