@@ -1,0 +1,67 @@
+{{- if index .Values "order-service" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: order-service
+spec:
+  replicas: {{ index .Values "order-service" "replicaCount" }}
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+      - name: order-service
+        image: {{ index .Values "order-service" "image" "repository" }}:{{ index .Values "order-service" "image" "tag" }}
+        ports:
+          - containerPort: {{ index .Values "order-service" "service" "port" }}
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_PROFILES_ACTIVE
+          - name: SPRING_ZIPKIN_BASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_ZIPKIN_BASE_URL
+          - name: SPRING_CONFIG_IMPORT
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_CONFIG_IMPORT
+          - name: EUREKA_CLIENT_REGION
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_REGION
+          - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+          - name: EUREKA_CLIENT_SERVICEURL_MYZONE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_MYZONE
+          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+        resources:
+          requests:
+            memory: {{ index .Values "order-service" "resources" "requests" "memory" }}
+            cpu: {{ index .Values "order-service" "resources" "requests" "cpu" }}
+          limits:
+            memory: {{ index .Values "order-service" "resources" "limits" "memory" }}
+            cpu: {{ index .Values "order-service" "resources" "limits" "cpu" }}
+{{- end }}
