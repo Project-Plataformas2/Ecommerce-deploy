@@ -14,7 +14,7 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        target::
+        target:
           type: Utilization
           averageUtilization: {{ index .Values "cloud-config" "hpa" "cpuUtilization" }}
         selector:
