@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-cloud-config
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: cloud-config
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: service-discovery
+    - podSelector:
+        matchLabels:
+          app: zipkin
+#falta añadir los demas servicios del compose
+  ports:
+  - protocol: TCP
+    port: {{ index .Values "service-discovery" "service" "port" }}
