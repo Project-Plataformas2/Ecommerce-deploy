@@ -88,6 +88,10 @@ api-gateway:
   service:
     type: ClusterIP
     port: 8080
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 proxy-client:
@@ -105,6 +109,10 @@ proxy-client:
   service:
     type: ClusterIP
     port: 8900
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
@@ -123,6 +131,10 @@ order-service:
   service:
     type: ClusterIP
     port: 8300
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
@@ -141,6 +153,10 @@ payment-service:
   service:
     type: ClusterIP
     port: 8400
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
@@ -159,6 +175,10 @@ product-service:
   service:
     type: ClusterIP
     port: 8500
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
@@ -177,6 +197,10 @@ shipping-service:
   service:
     type: ClusterIP
     port: 8600
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 
 user-service:
@@ -198,6 +222,10 @@ user-service:
     enabled: true  # Si usa DB, agrega PVC
     storageClass: "standard"
     size: "5Gi"
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 favourite-service:
   image:
@@ -214,6 +242,10 @@ favourite-service:
   service:
     type: ClusterIP
     port: 8800
+  hpa:
+    minReplicas: 1
+    maxReplicas: 2
+    cpuUtilization: 60
 
 # Configuración de Ingress (para api-gateway, expuesto externamente)
 ingress:
@@ -228,6 +260,7 @@ ingress:
     - secretName: api-gateway-tls
       hosts:
         - api-gateway.dev.example.com
+
 
 # Monitoreo (opcional en dev)
 prometheus:
