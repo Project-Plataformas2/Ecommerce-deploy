@@ -14,6 +14,6 @@ spec:
     - podSelector:
         matchLabels:
           app: api-gateway
-  ports:
-  - protocol: TCP
-    port: {{ index .Values "proxy-client" "service" "port" }}
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "proxy-client" "service" "port" }}

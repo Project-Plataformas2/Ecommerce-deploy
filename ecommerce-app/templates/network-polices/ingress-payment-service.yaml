@@ -17,6 +17,6 @@ spec:
     - podSelector:
         matchLabels:
           app: proxy-client
-  ports:
-  - protocol: TCP
-    port: {{ index .Values "payment-service" "service" "port" }}
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "payment-service" "service" "port" }}

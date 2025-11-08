@@ -17,6 +17,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ index .Values "cloud-config" "hpa" "cpuUtilization" }}
-        selector:
-          matchLabels:
-            app: cloud-config

@@ -41,6 +41,6 @@ spec:
     - podSelector:
         matchLabels:
           app: payment-service
-  ports:
-  - protocol: TCP
-    port: {{ index .Values "service-discovery" "service" "port" }}
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "service-discovery" "service" "port" }}

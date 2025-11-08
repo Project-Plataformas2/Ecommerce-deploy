@@ -40,6 +40,6 @@ spec:
     - podSelector:
         matchLabels:
           app: api-gateway
-  ports:
-  - protocol: TCP
-    port: {{ index .Values "cloud-config" "service" "port" }}
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
