@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-product-service
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: product-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: favourite-service
+    - podSelector:
+        matchLabels:
+          app: proxy-client
+    - podSelector:
+        matchLabels:
+          app: shipping-service
+  ports:
+  - protocol: TCP
+    port: {{ index .Values "product-service" "service" "port" }}

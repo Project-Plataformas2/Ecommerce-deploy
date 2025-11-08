@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-payment-service
+  namespace: {{ .Values.global.namespace }}
+spec:
+  podSelector:
+    matchLabels:
+      app: payment-service
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: order-service
+    - podSelector:
+        matchLabels:
+          app: proxy-client
+  ports:
+  - protocol: TCP
+    port: {{ index .Values "payment-service" "service" "port" }}

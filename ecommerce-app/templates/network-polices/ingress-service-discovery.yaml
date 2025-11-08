@@ -13,11 +13,33 @@ spec:
   - from:
     - podSelector:
         matchLabels:
-          app: cloud
+          app: cloud-config
     - podSelector:
         matchLabels:
           app: zipkin
-#falta añadir los demas servicios del compose
+    - podSelector:
+        matchLabels:
+          app: shipping-service
+    - podSelector:
+        matchLabels:
+          app: order-service
+    - podSelector:
+        matchLabels:
+          app: payment-service
+    - podSelector:
+        matchLabels:
+          app: product-service
+    - podSelector:
+        matchLabels:
+          app: user-service
+    - podSelector:  
+        matchLabels:
+          app: favourite-service
+    - podSelector:
+        matchLabels: proxy-client 
+    - podSelector:
+        matchLabels:
+          app: api-gateway
   ports:
   - protocol: TCP
     port: {{ index .Values "cloud-config" "service" "port" }}
