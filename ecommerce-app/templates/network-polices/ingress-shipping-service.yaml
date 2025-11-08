@@ -4,16 +4,27 @@ metadata:
   name: ingress-shipping-service
   namespace: {{ .Values.global.namespace }}
 spec:
+  # Aplica la política a los pods de Shipping Service
   podSelector:
     matchLabels:
       app: shipping-service
   policyTypes:
   - Ingress
   ingress:
+  
+  # 1. Regla: Permitir desde Order Service
+  # La orden de compra inicia el proceso de envío
   - from:
     - podSelector:
         matchLabels:
           app: order-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "shipping-service" "service" "port" }}
+      
+  # 2. Regla: Permitir desde Proxy Client
+  # El frontend puede necesitar consultar el estado del envío
+  - from:
     - podSelector:
         matchLabels:
           app: proxy-client

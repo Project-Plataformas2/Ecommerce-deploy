@@ -4,40 +4,99 @@ metadata:
   name: ingress-zipkin
   namespace: {{ .Values.global.namespace }}
 spec:
+  # Aplica la política a los pods de Zipkin
   podSelector:
     matchLabels:
       app: zipkin
   policyTypes:
   - Ingress
   ingress:
+  
+  # Nota: Zipkin necesita recibir tráfico de TODOS los microservicios para recolectar las trazas.
+  
+  # 1. Permite desde Service Discovery
   - from:
     - podSelector:
         matchLabels:
           app: service-discovery
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 2. Permite desde Cloud Config
+  - from:
     - podSelector:
         matchLabels:
           app: cloud-config
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 3. Permite desde API Gateway
+  - from:
     - podSelector:
         matchLabels:
           app: api-gateway
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 4. Permite desde Proxy Client
+  - from:
     - podSelector:
         matchLabels:
           app: proxy-client
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 5. Permite desde Favourite Service
+  - from:
     - podSelector:
         matchLabels:
           app: favourite-service
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 6. Permite desde Product Service
+  - from:
     - podSelector:
         matchLabels:
           app: product-service
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 7. Permite desde Shipping Service
+  - from:
     - podSelector:
         matchLabels:
           app: shipping-service
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 8. Permite desde Order Service
+  - from:
     - podSelector:
         matchLabels:
           app: order-service
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 9. Permite desde User Service
+  - from:
     - podSelector:
         matchLabels:
           app: user-service
+    ports:
+    - protocol: TCP
+      port: {{ .Values.zipkin.service.port }}
+      
+  # 10. Permite desde Payment Service
+  - from:
     - podSelector:
         matchLabels:
           app: payment-service

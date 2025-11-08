@@ -4,16 +4,27 @@ metadata:
   name: ingress-user-service
   namespace: {{ .Values.global.namespace }}
 spec:
+  # Aplica la política a los pods de User Service
   podSelector:
     matchLabels:
       app: user-service
   policyTypes:
   - Ingress
   ingress:
+  
+  # 1. Regla: Permitir desde Favourite Service
+  # Necesita saber quién es el usuario para guardar sus favoritos
   - from:
     - podSelector:
         matchLabels:
           app: favourite-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "user-service" "service" "port" }}
+      
+  # 2. Regla: Permitir desde Proxy Client
+  # El frontend se comunica directamente para login/registro/perfil
+  - from:
     - podSelector:
         matchLabels:
           app: proxy-client

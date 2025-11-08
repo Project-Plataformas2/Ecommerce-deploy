@@ -1,25 +1,47 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: ingress-favourite-service
+  name: ingress-order-service
   namespace: {{ .Values.global.namespace }}
 spec:
   podSelector:
     matchLabels:
-      app: favourite-service
+      app: order-service
   policyTypes:
   - Ingress
   ingress:
+  # 1. Regla: Permitir desde payment-service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: payment-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 2. Regla: Permitir desde proxy-client
+  - from:
+    - podSelector:
+        matchLabels:
+          app: proxy-client
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 3. Regla: Permitir desde shipping-service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: shipping-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 4. Regla: Permitir desde product-service
   - from:
     - podSelector:
         matchLabels:
           app: product-service
-    - podSelector:
-        matchLabels:
-          app: proxy-client
-    - podSelector:
-        matchLabels:
-          app: user-service
     ports:
     - protocol: TCP
-      port: {{ index .Values "favourite-service" "service" "port" }}
+      port: {{ index .Values "order-service" "service" "port" }}

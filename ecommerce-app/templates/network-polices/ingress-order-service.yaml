@@ -4,22 +4,43 @@ metadata:
   name: ingress-order-service
   namespace: {{ .Values.global.namespace }}
 spec:
+  # Aplica la política a los pods de Order Service
   podSelector:
     matchLabels:
       app: order-service
   policyTypes:
   - Ingress
   ingress:
+  
+  # 1. Regla: Permitir desde Payment Service
   - from:
     - podSelector:
         matchLabels:
           app: payment-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 2. Regla: Permitir desde Proxy Client (el frontend)
+  - from:
     - podSelector:
         matchLabels:
           app: proxy-client
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 3. Regla: Permitir desde Shipping Service
+  - from:
     - podSelector:
         matchLabels:
           app: shipping-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "order-service" "service" "port" }}
+      
+  # 4. Regla: Permitir desde Product Service
+  - from:
     - podSelector:
         matchLabels:
           app: product-service

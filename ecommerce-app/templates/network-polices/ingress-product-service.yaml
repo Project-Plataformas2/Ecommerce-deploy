@@ -4,19 +4,36 @@ metadata:
   name: ingress-product-service
   namespace: {{ .Values.global.namespace }}
 spec:
+  # Aplica la política a los pods de Product Service
   podSelector:
     matchLabels:
       app: product-service
   policyTypes:
   - Ingress
   ingress:
+  
+  # 1. Regla: Permitir desde Favourite Service
+  # Necesita obtener detalles de productos
   - from:
     - podSelector:
         matchLabels:
           app: favourite-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "product-service" "service" "port" }}
+      
+  # 2. Regla: Permitir desde Proxy Client (el frontend para ver el catálogo)
+  - from:
     - podSelector:
         matchLabels:
           app: proxy-client
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "product-service" "service" "port" }}
+      
+  # 3. Regla: Permitir desde Shipping Service
+  # Necesita validar el peso o dimensiones de un producto antes del envío
+  - from:
     - podSelector:
         matchLabels:
           app: shipping-service

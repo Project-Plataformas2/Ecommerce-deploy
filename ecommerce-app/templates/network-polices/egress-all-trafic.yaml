@@ -1,10 +1,22 @@
+# Permite a los pods seleccionados solo conectarse al DNS del clúster
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-egress
+  name: allow-dns-egress
+  namespace: my-namespace
 spec:
-  podSelector: {} 
+  podSelector: {} # Aplica a todos los pods
   policyTypes:
     - Egress
   egress:
-    - {}
+    # 1. Permite la salida al kube-dns para resolver nombres
+    - to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system # Asegúrate de que el DNS esté en este namespace
+      - podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
