@@ -20,6 +20,6 @@ spec:
     - podSelector:
         matchLabels:
           app: user-service
-    ports:
+  ports:
   - protocol: TCP
     port: {{ index .Values "favourite-service" "service" "port" }}

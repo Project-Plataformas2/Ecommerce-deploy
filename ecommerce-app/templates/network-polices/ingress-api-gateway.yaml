@@ -14,6 +14,6 @@ spec:
     - podSelector:
         matchLabels:
           app: api-gateway
-    ports:
+  ports:
   - protocol: TCP
     port: {{ index .Values "api-gateway" "service" "port" }}
