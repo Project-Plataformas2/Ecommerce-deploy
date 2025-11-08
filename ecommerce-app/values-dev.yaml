@@ -220,11 +220,11 @@ ingress:
   enabled: true
   className: "nginx"
   hosts:
-    - host: api-gateway.dev.example.com
+    - host: api-gateway.dev.example.com  # Cambia a tu dominio real (e.g., localhost para Minikube)
       paths:
         - path: /
           pathType: Prefix
-  tls:
+  tls:  # Opcional en dev; habilita para HTTPS
     - secretName: api-gateway-tls
       hosts:
         - api-gateway.dev.example.com
