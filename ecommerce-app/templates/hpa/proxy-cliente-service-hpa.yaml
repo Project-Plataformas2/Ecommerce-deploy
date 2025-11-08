@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: proxy-client-service-hpa
+  namespace: {{ .Values.global.namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: proxy-client
+  minReplicas: {{ index .Values "proxy-client" "hpa" "minReplicas" }}
+  maxReplicas: {{ index .Values "proxy-client" "hpa" "maxReplicas" }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ index .Values "proxy-client" "hpa" "cpuUtilization" }}
