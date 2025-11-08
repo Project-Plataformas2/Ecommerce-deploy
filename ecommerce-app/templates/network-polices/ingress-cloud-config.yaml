@@ -10,14 +10,92 @@ spec:
   policyTypes:
   - Ingress
   ingress:
+  # 1. Permite desde Service Discovery
   - from:
     - podSelector:
         matchLabels:
-          app: service-discovery
+          app: service-discovery # 👈 TIPOGRAFÍA CORREGIDA
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 2. Permite desde Zipkin
+  - from:
     - podSelector:
         matchLabels:
           app: zipkin
-#falta añadir los demas servicios del compose
-  ports:
-  - protocol: TCP
-    port: {{ index .Values "service-discovery" "service" "port" }}
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 3. Permite desde API Gateway
+  - from:
+    - podSelector:
+        matchLabels:
+          app: api-gateway
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 4. Permite desde Proxy Client
+  - from:
+    - podSelector:
+        matchLabels:
+          app: proxy-client
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 5. Permite desde Favourite Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: favourite-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 6. Permite desde Product Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: product-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 7. Permite desde Shipping Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: shipping-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 8. Permite desde Order Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: order-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 9. Permite desde User Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: user-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}
+      
+  # 10. Permite desde Payment Service
+  - from:
+    - podSelector:
+        matchLabels:
+          app: payment-service
+    ports:
+    - protocol: TCP
+      port: {{ index .Values "cloud-config" "service" "port" }}

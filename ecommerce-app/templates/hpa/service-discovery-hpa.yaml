@@ -17,6 +17,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{ index .Values "service-discovery" "hpa" "cpuUtilization" }}
-        selector:
-          matchLabels:
-            app: service-discovery  
