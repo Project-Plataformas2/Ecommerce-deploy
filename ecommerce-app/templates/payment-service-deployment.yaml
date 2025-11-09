@@ -53,10 +53,64 @@ spec:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          # Database credentials from Secrets
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_USERNAME
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_PASSWORD
+          - name: SPRING_DATASOURCE_URL
+          # Payment API credentials from Secrets
+          - name: PAYMENT_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: external-api-secrets
+                key: PAYMENT_API_KEY
+          - name: PAYMENT_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: external-api-secrets
+                key: PAYMENT_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: PAYMENT_SERVICE_DB_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          # Database credentials from Secrets
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_USERNAME
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_PASSWORD
+          - name: SPRING_DATASOURCE_URL
+          # Payment API credentials from Secrets
+          - name: PAYMENT_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: external-api-secrets
+                key: PAYMENT_API_KEY
+          - name: PAYMENT_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: external-api-secrets
+                key: PAYMENT_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: PAYMENT_SERVICE_DB_URL
         resources:
           requests:
             memory: {{ index .Values "payment-service" "resources" "requests" "memory" }}
