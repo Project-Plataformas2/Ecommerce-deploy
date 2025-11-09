@@ -57,6 +57,22 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+         # Database credentials from Secrets
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_USERNAME
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: DB_PASSWORD
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: USER_DB_URL
         resources:
           requests:
             memory: {{ index .Values "user-service" "resources" "requests" "memory" }}

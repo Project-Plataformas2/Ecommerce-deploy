@@ -53,10 +53,42 @@ spec:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          # JWT configuration from Secrets
+          - name: JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_SECRET_KEY
+          - name: JWT_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_EXPIRATION
+          - name: JWT_REFRESH_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_REFRESH_EXPIRATION
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          # JWT configuration from Secrets
+          - name: JWT_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_SECRET_KEY
+          - name: JWT_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_EXPIRATION
+          - name: JWT_REFRESH_EXPIRATION
+            valueFrom:
+              secretKeyRef:
+                name: jwt-secrets
+                key: JWT_REFRESH_EXPIRATION
         resources:
           requests:
             memory: {{ index .Values "api-gateway" "resources" "requests" "memory" }}

@@ -274,3 +274,34 @@ hpa:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
+
+
+
+# ============================================
+# SECRETS CONFIGURATION
+# ============================================
+secrets:
+  # Database credentials
+  database:
+    username: "ecommerce_user"
+    password: "ecommerce_pass123"
+  
+  # JWT configuration
+  jwt:
+    secretKey: "mySecretKey123ForJwtTokenSigningAndValidation"
+    expiration: "86400000"  # 24 hours in milliseconds
+    refreshExpiration: "604800000"  # 7 days in milliseconds
+  
+  # External APIs
+  externalApis:
+    # Payment gateway (Stripe/PayPal mock)
+    paymentApiKey: "sk_test_payment_api_key_123456789"
+    paymentApiSecret: "payment_secret_abc123xyz"
+    
+    # Shipping provider (FedEx/UPS mock)
+    shippingApiKey: "ship_api_key_987654321"
+    shippingApiSecret: "shipping_secret_xyz789abc"
+    
+    # Email service (SMTP)
+    emailUsername: "noreply@ecommerce-app.com"
+    emailPassword: "email_password_secure123"
