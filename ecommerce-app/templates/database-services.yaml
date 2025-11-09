@@ -1,0 +1,120 @@
+{{- if .Values.persistence.enabled }}
+# ============================================
+# User Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: user-db
+spec:
+  selector:
+    app: user-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+
+---
+# ============================================
+# Product Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: product-db
+spec:
+  selector:
+    app: product-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+
+---
+# ============================================
+# Order Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: order-db
+spec:
+  selector:
+    app: order-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+
+---
+# ============================================
+# Payment Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: payment-db
+spec:
+  selector:
+    app: payment-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+
+---
+# ============================================
+# Shipping Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: shipping-db
+spec:
+  selector:
+    app: shipping-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+
+---
+# ============================================
+# Favourite Database Service
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: favourite-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: favourite-db
+spec:
+  selector:
+    app: favourite-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+  type: ClusterIP
+{{- end }}

@@ -1,0 +1,120 @@
+{{- if .Values.persistence.enabled }}
+# ============================================
+# User Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: user-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.userDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/user-db"
+    type: DirectoryOrCreate
+
+---
+# ============================================
+# Product Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: product-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.productDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/product-db"
+    type: DirectoryOrCreate
+
+---
+# ============================================
+# Order Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: order-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.orderDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/order-db"
+    type: DirectoryOrCreate
+
+---
+# ============================================
+# Payment Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: payment-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.paymentDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/payment-db"
+    type: DirectoryOrCreate
+
+---
+# ============================================
+# Shipping Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: shipping-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.shippingDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/shipping-db"
+    type: DirectoryOrCreate
+
+---
+# ============================================
+# Favourite Service Database PV
+# ============================================
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: favourite-db-pv
+  namespace: {{ .Values.global.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.persistence.favouriteDb.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  hostPath:
+    path: "/mnt/data/favourite-db"
+    type: DirectoryOrCreate
+{{- end }}

@@ -305,3 +305,34 @@ secrets:
     # Email service (SMTP)
     emailUsername: "noreply@ecommerce-app.com"
     emailPassword: "email_password_secure123"
+
+# ============================================
+# PERSISTENCE CONFIGURATION
+# ============================================
+persistence:
+  enabled: true
+  storageClassName: "ecommerce-storage"
+  
+  # User Service Database
+  userDb:
+    size: "5Gi"
+  
+  # Product Service Database
+  productDb:
+    size: "10Gi"  # Más grande porque puede tener muchos productos
+  
+  # Order Service Database
+  orderDb:
+    size: "10Gi"  # Histórico de órdenes crece rápido
+  
+  # Payment Service Database
+  paymentDb:
+    size: "5Gi"
+  
+  # Shipping Service Database
+  shippingDb:
+    size: "5Gi"
+  
+  # Favourite Service Database
+  favouriteDb:
+    size: "3Gi"  # Menos datos

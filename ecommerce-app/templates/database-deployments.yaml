@@ -1,0 +1,330 @@
+{{- if .Values.persistence.enabled }}
+# ============================================
+# User Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: user-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-db
+  template:
+    metadata:
+      labels:
+        app: user-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "user_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: user-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: user-db-storage
+        persistentVolumeClaim:
+          claimName: user-db-pvc
+
+---
+# ============================================
+# Product Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: product-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-db
+  template:
+    metadata:
+      labels:
+        app: product-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "product_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: product-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: product-db-storage
+        persistentVolumeClaim:
+          claimName: product-db-pvc
+
+---
+# ============================================
+# Order Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: order-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-db
+  template:
+    metadata:
+      labels:
+        app: order-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "order_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: order-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: order-db-storage
+        persistentVolumeClaim:
+          claimName: order-db-pvc
+
+---
+# ============================================
+# Payment Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: payment-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-db
+  template:
+    metadata:
+      labels:
+        app: payment-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "payment_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: payment-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: payment-db-storage
+        persistentVolumeClaim:
+          claimName: payment-db-pvc
+
+---
+# ============================================
+# Shipping Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: shipping-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping-db
+  template:
+    metadata:
+      labels:
+        app: shipping-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "shipping_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: shipping-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: shipping-db-storage
+        persistentVolumeClaim:
+          claimName: shipping-db-pvc
+
+---
+# ============================================
+# Favourite Database Deployment
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: favourite-db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: favourite-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: favourite-db
+  template:
+    metadata:
+      labels:
+        app: favourite-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "favourite_service_db"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: favourite-db-storage
+          mountPath: /var/lib/postgresql/data
+          subPath: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: favourite-db-storage
+        persistentVolumeClaim:
+          claimName: favourite-db-pvc
+{{- end }}
