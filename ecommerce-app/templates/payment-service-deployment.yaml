@@ -79,7 +79,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: database-secrets
-                key: PAYMENT_SERVICE_DB_URL
+                key: PAYMENT_DB_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
@@ -110,7 +110,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: database-secrets
-                key: PAYMENT_SERVICE_DB_URL
+                key: PAYMENT_DB_URL
         resources:
           requests:
             memory: {{ index .Values "payment-service" "resources" "requests" "memory" }}

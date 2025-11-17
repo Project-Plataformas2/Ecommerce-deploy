@@ -68,7 +68,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: database-secrets
-                key: PRODUCT_SERVICE_DB_URL
+                key: PRODUCT_DB_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
@@ -88,7 +88,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: database-secrets
-                key: PRODUCT_SERVICE_DB_URL
+                key: PRODUCT_DB_URL
         resources:
           requests:
             memory: {{ index .Values "product-service" "resources" "requests" "memory" }}
