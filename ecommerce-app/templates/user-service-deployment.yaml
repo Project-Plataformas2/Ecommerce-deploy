@@ -57,7 +57,16 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-         # Database credentials from Secrets
+          - name: EUREKA_INSTANCE_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: user-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:

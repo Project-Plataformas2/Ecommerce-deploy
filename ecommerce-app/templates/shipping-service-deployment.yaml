@@ -22,6 +22,7 @@ spec:
         ports:
           - containerPort: {{ index .Values "shipping-service" "service" "port" }}
         env:
+          # Spring profile
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
               configMapKeyRef:
@@ -37,6 +38,7 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_CONFIG_IMPORT
+          # Eureka configuration
           - name: EUREKA_CLIENT_REGION
             valueFrom:
               configMapKeyRef:
@@ -57,38 +59,17 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # Database credentials from Secrets
-          - name: SPRING_DATASOURCE_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_USERNAME
-          - name: SPRING_DATASOURCE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_PASSWORD
-          - name: SPRING_DATASOURCE_URL
-          # Shipping API credentials from Secrets
-          - name: SHIPPING_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: external-api-secrets
-                key: SHIPPING_API_KEY
-          - name: SHIPPING_API_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: external-api-secrets
-                key: SHIPPING_API_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: SHIPPING_DB_URL
+          - name: EUREKA_INSTANCE_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # Database credentials from Secrets
+                key: shipping-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          # Database credentials
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:
@@ -100,7 +81,11 @@ spec:
                 name: database-secrets
                 key: DB_PASSWORD
           - name: SPRING_DATASOURCE_URL
-          # Shipping API credentials from Secrets
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: SHIPPING_DB_URL
+          # Shipping API credentials
           - name: SHIPPING_API_KEY
             valueFrom:
               secretKeyRef:
@@ -111,10 +96,6 @@ spec:
               secretKeyRef:
                 name: external-api-secrets
                 key: SHIPPING_API_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: SHIPPING_DB_URL
         resources:
           requests:
             memory: {{ index .Values "shipping-service" "resources" "requests" "memory" }}
@@ -123,7 +104,7 @@ spec:
             memory: {{ index .Values "shipping-service" "resources" "limits" "memory" }}
             cpu: {{ index .Values "shipping-service" "resources" "limits" "cpu" }}
       initContainers:
-        - name: wait-for-dependencies
-          image: busybox
-          command: ['sh', '-c', 'until nc -z zipkin 9411 && nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
+      - name: wait-for-dependencies
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nc -z service-discovery 8761 && nc -z cloud-config 9296; do echo waiting for dependencies; sleep 2; done;']
 {{- end }}

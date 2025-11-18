@@ -57,6 +57,16 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          - name: EUREKA_INSTANCE_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: payment-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
           # Database credentials from Secrets
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
@@ -80,14 +90,11 @@ spec:
               secretKeyRef:
                 name: external-api-secrets
                 key: PAYMENT_API_SECRET
+          - name: PAYMENT_DB_URL
             valueFrom:
               secretKeyRef:
                 name: database-secrets
                 key: PAYMENT_DB_URL
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           # Database credentials from Secrets
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:

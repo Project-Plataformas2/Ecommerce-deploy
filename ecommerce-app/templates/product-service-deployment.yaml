@@ -22,21 +22,25 @@ spec:
         ports:
           - containerPort: {{ index .Values "product-service" "service" "port" }}
         env:
+          # Spring profile
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_PROFILES_ACTIVE
+          # Zipkin
           - name: SPRING_ZIPKIN_BASE_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_ZIPKIN_BASE_URL
+          # Spring config import
           - name: SPRING_CONFIG_IMPORT
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_CONFIG_IMPORT
+          # Eureka client
           - name: EUREKA_CLIENT_REGION
             valueFrom:
               configMapKeyRef:
@@ -56,27 +60,18 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE          # Database credentials from Secrets
-          - name: SPRING_DATASOURCE_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_USERNAME
-          - name: SPRING_DATASOURCE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_PASSWORD
-          - name: SPRING_DATASOURCE_URL
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: PRODUCT_DB_URL
+                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          - name: EUREKA_INSTANCE_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # Database credentials from Secrets
+                key: product-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          # Database credentials
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:

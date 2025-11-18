@@ -22,6 +22,7 @@ spec:
         ports:
           - containerPort: {{ index .Values "order-service" "service" "port" }}
         env:
+          # Spring profiles
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
               configMapKeyRef:
@@ -37,6 +38,8 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_CONFIG_IMPORT
+
+          # Eureka configuration
           - name: EUREKA_CLIENT_REGION
             valueFrom:
               configMapKeyRef:
@@ -57,27 +60,17 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # Database credentials from Secrets
-          - name: SPRING_DATASOURCE_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_USERNAME
-          - name: SPRING_DATASOURCE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: DB_PASSWORD
-          - name: SPRING_DATASOURCE_URL
-            valueFrom:
-              secretKeyRef:
-                name: database-secrets
-                key: ORDER_DB_URL
+          - name: EUREKA_INSTANCE_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # Database credentials from Secrets
+                key: order-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          # Database credentials
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:
@@ -93,6 +86,7 @@ spec:
               secretKeyRef:
                 name: database-secrets
                 key: ORDER_DB_URL
+
         resources:
           requests:
             memory: {{ index .Values "order-service" "resources" "requests" "memory" }}
@@ -100,6 +94,7 @@ spec:
           limits:
             memory: {{ index .Values "order-service" "resources" "limits" "memory" }}
             cpu: {{ index .Values "order-service" "resources" "limits" "cpu" }}
+
       initContainers:
       - name: wait-for-dependencies
         image: busybox

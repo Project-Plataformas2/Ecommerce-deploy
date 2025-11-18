@@ -55,7 +55,7 @@ cloud-config:
   enabled: true
   image:
     repository: "juaca2004/cloud-config"
-    tag: "0.1.0"
+    tag: "0.2.0"
   replicaCount: 1
   resources:
     requests:
