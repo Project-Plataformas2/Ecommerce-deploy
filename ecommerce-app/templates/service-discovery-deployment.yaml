@@ -64,4 +64,8 @@ spec:
           limits:
             memory: {{index .Values "service-discovery" "resources" "limits" "memory"}}
             cpu: {{index .Values "service-discovery" "resources" "limits" "cpu"}}
+      initContainers:
+      - name: wait-for-dependencies
+        image: busybox
+        command: ['sh', '-c', 'until nc -z zipkin 9411; do echo waiting for dependencies; sleep 2; done;']
 {{- end }}

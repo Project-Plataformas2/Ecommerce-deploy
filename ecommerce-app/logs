@@ -1,0 +1,411 @@
+Csantiago@fedora:~/Documentos/clases/Semestre8/Plataformas2/Proyecto/Ecommerce-deploy/ecommerce-appkubectl logs -n dev deploy/api-gatewayay
+Found 2 pods, using pod/api-gateway-fb57c7b67-88cp8
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.5.7)
+
+2025-11-17 23:22:29.994  INFO [API-GATEWAY,,] 1 --- [           main] c.selimhorri.app.ApiGatewayApplication   : Starting ApiGatewayApplication v0.1.0 using Java 11.0.13 on api-gateway-fb57c7b67-88cp8 with PID 1 (/home/app/api-gateway.jar started by root in /home/app)
+2025-11-17 23:22:30.041  INFO [API-GATEWAY,,] 1 --- [           main] c.selimhorri.app.ApiGatewayApplication   : The following profiles are active: dev
+2025-11-17 23:22:30.960  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Fetching config from server at : http://cloud-config:9296/
+2025-11-17 23:22:30.976  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Connect Timeout Exception on Url - http://cloud-config:9296/. Will be trying the next url if available
+2025-11-17 23:22:30.977  WARN [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Could not locate PropertySource ([ConfigServerConfigDataResource@26794848 uris = array<String>['http://cloud-config:9296/'], optional = true, profiles = list['dev']]): I/O error on GET request for "http://cloud-config:9296/API-GATEWAY/dev": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2025-11-17 23:22:30.980  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Fetching config from server at : http://cloud-config:9296/
+2025-11-17 23:22:30.981  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Connect Timeout Exception on Url - http://cloud-config:9296/. Will be trying the next url if available
+2025-11-17 23:22:30.981  WARN [API-GATEWAY,,] 1 --- [           main] o.s.b.context.config.ConfigDataLoader    : Could not locate PropertySource ([ConfigServerConfigDataResource@367ffa75 uris = array<String>['http://cloud-config:9296/'], optional = true, profiles = list['dev']]): I/O error on GET request for "http://cloud-config:9296/API-GATEWAY/dev": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2025-11-17 23:22:51.136  INFO [API-GATEWAY,,] 1 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=a7e5a6c2-0eb0-38fe-889f-10c3cae78b4c
+2025-11-17 23:22:55.104  INFO [API-GATEWAY,,] 1 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-11-17 23:22:55.152  INFO [API-GATEWAY,,] 1 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-11-17 23:22:55.206  INFO [API-GATEWAY,,] 1 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2025-11-17 23:23:14.215  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2025-11-17 23:23:14.232  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2025-11-17 23:23:14.240  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2025-11-17 23:23:14.244  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2025-11-17 23:23:14.245  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2025-11-17 23:23:14.248  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2025-11-17 23:23:24.169 DEBUG [API-GATEWAY,,] 1 --- [           main] o.s.w.r.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2025-11-17 23:23:33.543  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-11-17 23:23:35.030 DEBUG [API-GATEWAY,,] 1 --- [           main] o.s.w.r.r.m.a.ControllerMethodResolver   : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 @ExceptionHandler
+2025-11-17 23:23:37.656 DEBUG [API-GATEWAY,,] 1 --- [/spans} check()] org.springframework.web.HttpLogging      : HTTP POST http://zipkin:9411/api/v2/spans
+2025-11-17 23:23:37.665 DEBUG [API-GATEWAY,,] 1 --- [/spans} check()] org.springframework.web.HttpLogging      : Accept=[text/plain, application/json, application/*+json, */*]
+2025-11-17 23:23:37.666 DEBUG [API-GATEWAY,,] 1 --- [/spans} check()] org.springframework.web.HttpLogging      : Writing [[B@63cd3409] as "application/json"
+2025-11-17 23:23:37.758 DEBUG [API-GATEWAY,,] 1 --- [/spans} check()] org.springframework.web.HttpLogging      : Response 202 ACCEPTED
+2025-11-17 23:23:39.765 DEBUG [API-GATEWAY,,] 1 --- [           main] o.s.w.s.adapter.HttpWebHandlerAdapter    : enableLoggingRequestDetails='false': form data and headers will be masked to prevent unsafe logging of potentially sensitive data
+2025-11-17 23:23:44.813  INFO [API-GATEWAY,,] 1 --- [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestTemplate.
+2025-11-17 23:23:47.451  WARN [API-GATEWAY,,] 1 --- [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-11-17 23:23:48.547  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2025-11-17 23:23:49.700  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region default
+2025-11-17 23:23:49.785  INFO [API-GATEWAY,,] 1 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2025-11-17 23:23:50.090  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-11-17 23:23:50.121  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-11-17 23:23:50.124  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-11-17 23:23:50.125  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-11-17 23:23:50.125  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-11-17 23:23:50.125  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2025-11-17 23:23:50.126  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-11-17 23:23:52.321 DEBUG [API-GATEWAY,,] 1 --- [           main] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/
+2025-11-17 23:23:52.936 DEBUG [API-GATEWAY,,] 1 --- [           main] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:23:53.270  INFO [API-GATEWAY,,] 1 --- [           main] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://service-discovery:8761/eureka/}, exception=I/O error on GET request for "http://service-discovery:8761/eureka/apps/": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused) stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://service-discovery:8761/eureka/apps/": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785)
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:711)
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:602)
+	at org.springframework.cloud.netflix.eureka.http.RestTemplateEurekaHttpClient.getApplicationsInternal(RestTemplateEurekaHttpClient.java:145)
+	at org.springframework.cloud.netflix.eureka.http.RestTemplateEurekaHttpClient.getApplications(RestTemplateEurekaHttpClient.java:135)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$6.execute(EurekaHttpClientDecorator.java:137)
+	at com.netflix.discovery.shared.transport.decorator.RedirectingEurekaHttpClient.executeOnNewServer(RedirectingEurekaHttpClient.java:121)
+	at com.netflix.discovery.shared.transport.decorator.RedirectingEurekaHttpClient.execute(RedirectingEurekaHttpClient.java:80)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.getApplications(EurekaHttpClientDecorator.java:134)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$6.execute(EurekaHttpClientDecorator.java:137)
+	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:120)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.getApplications(EurekaHttpClientDecorator.java:134)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$6.execute(EurekaHttpClientDecorator.java:137)
+	at com.netflix.discovery.shared.transport.decorator.SessionedEurekaHttpClient.execute(SessionedEurekaHttpClient.java:77)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.getApplications(EurekaHttpClientDecorator.java:134)
+	at com.netflix.discovery.DiscoveryClient.getAndStoreFullRegistry(DiscoveryClient.java:1101)
+	at com.netflix.discovery.DiscoveryClient.fetchRegistry(DiscoveryClient.java:1014)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:441)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:283)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:279)
+	at org.springframework.cloud.netflix.eureka.CloudEurekaClient.<init>(CloudEurekaClient.java:66)
+	at org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration$RefreshableEurekaClientConfiguration.eurekaClient(EurekaClientAutoConfiguration.java:295)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$1(AbstractBeanFactory.java:374)
+	at org.springframework.cloud.context.scope.GenericScope$BeanLifecycleWrapper.getBean(GenericScope.java:376)
+	at org.springframework.cloud.context.scope.GenericScope.get(GenericScope.java:179)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.aop.target.SimpleBeanTargetSource.getTarget(SimpleBeanTargetSource.java:35)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration.getTargetObject(EurekaRegistration.java:127)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration.getEurekaClient(EurekaRegistration.java:115)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.cloud.context.scope.GenericScope$LockedScopedProxyFactoryBean.invoke(GenericScope.java:485)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration$$EnhancerBySpringCGLIB$$e58165d.getEurekaClient(<generated>)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry.maybeInitializeClient(EurekaServiceRegistry.java:54)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry.register(EurekaServiceRegistry.java:38)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration.start(EurekaAutoServiceRegistration.java:83)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:178)
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:54)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:356)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:155)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:123)
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:935)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:586)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:64)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:765)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.selimhorri.app.ApiGatewayApplication.main(ApiGatewayApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at org.springframework.http.client.HttpComponentsClientHttpRequest.executeInternal(HttpComponentsClientHttpRequest.java:87)
+	at org.springframework.http.client.AbstractBufferingClientHttpRequest.executeInternal(AbstractBufferingClientHttpRequest.java:48)
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:776)
+	... 76 more
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.base/java.net.Socket.connect(Socket.java:609)
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 89 more
+
+2025-11-17 23:23:53.282  WARN [API-GATEWAY,,] 1 --- [           main] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on GET request for "http://service-discovery:8761/eureka/apps/": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+2025-11-17 23:23:53.290  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080 - was unable to refresh its cache! This periodic background refresh will be retried in 30 seconds. status = Cannot execute request on any known server stacktrace = com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
+	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.getApplications(EurekaHttpClientDecorator.java:134)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$6.execute(EurekaHttpClientDecorator.java:137)
+	at com.netflix.discovery.shared.transport.decorator.SessionedEurekaHttpClient.execute(SessionedEurekaHttpClient.java:77)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.getApplications(EurekaHttpClientDecorator.java:134)
+	at com.netflix.discovery.DiscoveryClient.getAndStoreFullRegistry(DiscoveryClient.java:1101)
+	at com.netflix.discovery.DiscoveryClient.fetchRegistry(DiscoveryClient.java:1014)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:441)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:283)
+	at com.netflix.discovery.DiscoveryClient.<init>(DiscoveryClient.java:279)
+	at org.springframework.cloud.netflix.eureka.CloudEurekaClient.<init>(CloudEurekaClient.java:66)
+	at org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration$RefreshableEurekaClientConfiguration.eurekaClient(EurekaClientAutoConfiguration.java:295)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1195)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$1(AbstractBeanFactory.java:374)
+	at org.springframework.cloud.context.scope.GenericScope$BeanLifecycleWrapper.getBean(GenericScope.java:376)
+	at org.springframework.cloud.context.scope.GenericScope.get(GenericScope.java:179)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:371)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.aop.target.SimpleBeanTargetSource.getTarget(SimpleBeanTargetSource.java:35)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration.getTargetObject(EurekaRegistration.java:127)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration.getEurekaClient(EurekaRegistration.java:115)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.cloud.context.scope.GenericScope$LockedScopedProxyFactoryBean.invoke(GenericScope.java:485)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaRegistration$$EnhancerBySpringCGLIB$$e58165d.getEurekaClient(<generated>)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry.maybeInitializeClient(EurekaServiceRegistry.java:54)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaServiceRegistry.register(EurekaServiceRegistry.java:38)
+	at org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration.start(EurekaAutoServiceRegistration.java:83)
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:178)
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$200(DefaultLifecycleProcessor.java:54)
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:356)
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:155)
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:123)
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:935)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:586)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:64)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:765)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:445)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:338)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.selimhorri.app.ApiGatewayApplication.main(ApiGatewayApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:49)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:108)
+	at org.springframework.boot.loader.Launcher.launch(Launcher.java:58)
+	at org.springframework.boot.loader.JarLauncher.main(JarLauncher.java:88)
+
+2025-11-17 23:23:53.296  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Initial registry fetch from primary servers failed
+2025-11-17 23:23:53.297  WARN [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Using default backup registry implementation which does not do anything.
+2025-11-17 23:23:53.298  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Initial registry fetch from backup servers failed
+2025-11-17 23:23:53.328  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2025-11-17 23:23:53.409  INFO [API-GATEWAY,,] 1 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2025-11-17 23:23:53.493  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1763421833476 with initial instances count: 0
+2025-11-17 23:23:53.610  INFO [API-GATEWAY,,] 1 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application API-GATEWAY with eureka with status UP
+2025-11-17 23:23:53.614  INFO [API-GATEWAY,,] 1 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1763421833613, current=UP, previous=STARTING]
+2025-11-17 23:23:53.627  INFO [API-GATEWAY,,] 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080: registering service...
+2025-11-17 23:23:53.659 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : HTTP POST http://service-discovery:8761/eureka/apps/API-GATEWAY
+2025-11-17 23:23:53.775 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:23:54.025 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : Writing [InstanceInfo [instanceId = api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080, appName = API-GATEWAY, hostName = api-gateway-fb57c7b67-88cp8, status = UP, ipAddr = 10.244.0.7, port = 8080, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@1ac1a723] as "application/json"
+2025-11-17 23:23:54.306  INFO [API-GATEWAY,,] 1 --- [nfoReplicator-0] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://service-discovery:8761/eureka/}, exception=I/O error on POST request for "http://service-discovery:8761/eureka/apps/API-GATEWAY": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused) stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://service-discovery:8761/eureka/apps/API-GATEWAY": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:785)
+	at org.springframework.web.client.RestTemplate.execute(RestTemplate.java:711)
+	at org.springframework.web.client.RestTemplate.exchange(RestTemplate.java:602)
+	at org.springframework.cloud.netflix.eureka.http.RestTemplateEurekaHttpClient.register(RestTemplateEurekaHttpClient.java:77)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$1.execute(EurekaHttpClientDecorator.java:59)
+	at com.netflix.discovery.shared.transport.decorator.RedirectingEurekaHttpClient.executeOnNewServer(RedirectingEurekaHttpClient.java:121)
+	at com.netflix.discovery.shared.transport.decorator.RedirectingEurekaHttpClient.execute(RedirectingEurekaHttpClient.java:80)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$1.execute(EurekaHttpClientDecorator.java:59)
+	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:120)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$1.execute(EurekaHttpClientDecorator.java:59)
+	at com.netflix.discovery.shared.transport.decorator.SessionedEurekaHttpClient.execute(SessionedEurekaHttpClient.java:77)
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56)
+	at com.netflix.discovery.DiscoveryClient.register(DiscoveryClient.java:876)
+	at com.netflix.discovery.InstanceInfoReplicator.run(InstanceInfoReplicator.java:121)
+	at com.netflix.discovery.InstanceInfoReplicator$1.run(InstanceInfoReplicator.java:101)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)
+	at org.springframework.http.client.HttpComponentsClientHttpRequest.executeInternal(HttpComponentsClientHttpRequest.java:87)
+	at org.springframework.http.client.AbstractBufferingClientHttpRequest.executeInternal(AbstractBufferingClientHttpRequest.java:48)
+	at org.springframework.http.client.AbstractClientHttpRequest.execute(AbstractClientHttpRequest.java:66)
+	at org.springframework.web.client.RestTemplate.doExecute(RestTemplate.java:776)
+	... 22 more
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.base/java.net.Socket.connect(Socket.java:609)
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 35 more
+
+2025-11-17 23:23:54.356  WARN [API-GATEWAY,,] 1 --- [nfoReplicator-0] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://service-discovery:8761/eureka/apps/API-GATEWAY": Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused); nested exception is org.apache.http.conn.HttpHostConnectException: Connect to service-discovery:8761 [service-discovery/10.0.29.155] failed: Connection refused (Connection refused)
+2025-11-17 23:23:54.393  WARN [API-GATEWAY,,] 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080 - registration failed Cannot execute request on any known server
+
+com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
+	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$1.execute(EurekaHttpClientDecorator.java:59) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.SessionedEurekaHttpClient.execute(SessionedEurekaHttpClient.java:77) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.DiscoveryClient.register(DiscoveryClient.java:876) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.InstanceInfoReplicator.run(InstanceInfoReplicator.java:121) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.InstanceInfoReplicator$1.run(InstanceInfoReplicator.java:101) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]
+
+2025-11-17 23:23:54.413  WARN [API-GATEWAY,,] 1 --- [nfoReplicator-0] c.n.discovery.InstanceInfoReplicator     : There was a problem with the instance info replicator
+
+com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
+	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator$1.execute(EurekaHttpClientDecorator.java:59) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.SessionedEurekaHttpClient.execute(SessionedEurekaHttpClient.java:77) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.shared.transport.decorator.EurekaHttpClientDecorator.register(EurekaHttpClientDecorator.java:56) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.DiscoveryClient.register(DiscoveryClient.java:876) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.InstanceInfoReplicator.run(InstanceInfoReplicator.java:121) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at com.netflix.discovery.InstanceInfoReplicator$1.run(InstanceInfoReplicator.java:101) ~[eureka-client-1.10.16.jar!/:1.10.16]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:829) ~[na:na]
+
+2025-11-17 23:23:56.182  INFO [API-GATEWAY,,] 1 --- [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8080
+2025-11-17 23:23:56.207  INFO [API-GATEWAY,,] 1 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8080
+2025-11-17 23:23:56.661  INFO [API-GATEWAY,,] 1 --- [           main] c.selimhorri.app.ApiGatewayApplication   : Started ApiGatewayApplication in 100.193 seconds (JVM running for 107.053)
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2025-11-17 23:24:23.320  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-11-17 23:24:23.329 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/
+2025-11-17 23:24:23.359 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP PUT http://service-discovery:8761/eureka/apps/API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080?status=UP&lastDirtyTimestamp=1763421833613
+2025-11-17 23:24:23.501 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:23.528 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:24.437  INFO [API-GATEWAY,,] 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080: registering service...
+2025-11-17 23:24:24.448 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : HTTP POST http://service-discovery:8761/eureka/apps/API-GATEWAY
+2025-11-17 23:24:24.449 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:24.455 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : Writing [InstanceInfo [instanceId = api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080, appName = API-GATEWAY, hostName = api-gateway-fb57c7b67-88cp8, status = UP, ipAddr = 10.244.0.7, port = 8080, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@1ac1a723] as "application/json"
+2025-11-17 23:24:24.601 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 404 NOT_FOUND
+2025-11-17 23:24:24.634  INFO [API-GATEWAY,,] 1 --- [tbeatExecutor-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080 - Re-registering apps/API-GATEWAY
+2025-11-17 23:24:24.646 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:24:24.657 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2025-11-17 23:24:24.635  INFO [API-GATEWAY,,] 1 --- [tbeatExecutor-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080: registering service...
+2025-11-17 23:24:24.658 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP POST http://service-discovery:8761/eureka/apps/API-GATEWAY
+2025-11-17 23:24:24.669 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:24.680 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Writing [InstanceInfo [instanceId = api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080, appName = API-GATEWAY, hostName = api-gateway-fb57c7b67-88cp8, status = UP, ipAddr = 10.244.0.7, port = 8080, securePort = 443, dataCenterInfo = com.netflix.appinfo.MyDataCenterInfo@1ac1a723] as "application/json"
+2025-11-17 23:24:24.821  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2025-11-17 23:24:26.130 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 204 NO_CONTENT
+2025-11-17 23:24:26.133  INFO [API-GATEWAY,,] 1 --- [tbeatExecutor-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080 - registration status: 204
+2025-11-17 23:24:26.161 DEBUG [API-GATEWAY,,] 1 --- [nfoReplicator-0] o.s.web.client.RestTemplate              : Response 204 NO_CONTENT
+2025-11-17 23:24:26.161  INFO [API-GATEWAY,,] 1 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080 - registration status: 204
+2025-11-17 23:24:54.988  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2025-11-17 23:24:54.988  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2025-11-17 23:24:54.989  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2025-11-17 23:24:54.989  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2025-11-17 23:24:54.991  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2025-11-17 23:24:54.991  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2025-11-17 23:24:54.991  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2025-11-17 23:24:54.992 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/
+2025-11-17 23:24:54.992 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:55.009 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:24:55.009 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2025-11-17 23:24:55.019  INFO [API-GATEWAY,,] 1 --- [freshExecutor-0] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2025-11-17 23:24:56.137 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP PUT http://service-discovery:8761/eureka/apps/API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080?status=UP&lastDirtyTimestamp=1763421864635
+2025-11-17 23:24:56.152 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:24:56.162 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:25:25.101 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/delta
+2025-11-17 23:25:25.102 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:25:25.106 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:25:25.107 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2025-11-17 23:25:26.164 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP PUT http://service-discovery:8761/eureka/apps/API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080?status=UP&lastDirtyTimestamp=1763421864635
+2025-11-17 23:25:26.164 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:25:26.169 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:25:41.501 DEBUG [API-GATEWAY,,] 1 --- [or-http-epoll-2] o.s.w.s.adapter.HttpWebHandlerAdapter    : [ff9d99c9-1, L:/127.0.0.1:8080 - R:/127.0.0.1:35056] HTTP GET "/app/api/products"
+2025-11-17 23:25:42.487  WARN [API-GATEWAY,36c862f284ef3fe8,36c862f284ef3fe8] 1 --- [or-http-epoll-2] o.s.c.l.core.RoundRobinLoadBalancer      : No servers available for service: PROXY-CLIENT
+2025-11-17 23:25:42.984 DEBUG [API-GATEWAY,36c862f284ef3fe8,36c862f284ef3fe8] 1 --- [or-http-epoll-2] org.springframework.web.HttpLogging      : [ff9d99c9-1, L:/127.0.0.1:8080 - R:/127.0.0.1:35056] Resolved [NotFoundException: 503 SERVICE_UNAVAILABLE "Unable to find instance for PROXY-CLIENT"] for HTTP GET /app/api/products
+2025-11-17 23:25:43.285 DEBUG [API-GATEWAY,36c862f284ef3fe8,36c862f284ef3fe8] 1 --- [or-http-epoll-2] org.springframework.web.HttpLogging      : [ff9d99c9-1, L:/127.0.0.1:8080 - R:/127.0.0.1:35056] Encoding [{timestamp=Mon Nov 17 23:25:42 UTC 2025, path=/app/api/products, status=503, error=Service Unavailab (truncated)...]
+2025-11-17 23:25:43.678 DEBUG [API-GATEWAY,36c862f284ef3fe8,36c862f284ef3fe8] 1 --- [or-http-epoll-2] o.s.w.s.adapter.HttpWebHandlerAdapter    : [ff9d99c9-1, L:/127.0.0.1:8080 - R:/127.0.0.1:35056] Completed 503 SERVICE_UNAVAILABLE
+2025-11-17 23:25:43.889 DEBUG [API-GATEWAY,,] 1 --- [/api/v2/spans}}] org.springframework.web.HttpLogging      : HTTP POST http://zipkin:9411/api/v2/spans
+2025-11-17 23:25:43.889 DEBUG [API-GATEWAY,,] 1 --- [/api/v2/spans}}] org.springframework.web.HttpLogging      : Accept=[text/plain, application/json, application/*+json, */*]
+2025-11-17 23:25:43.890 DEBUG [API-GATEWAY,,] 1 --- [/api/v2/spans}}] org.springframework.web.HttpLogging      : Writing [[B@6032b793] as "application/json"
+2025-11-17 23:25:44.088 DEBUG [API-GATEWAY,,] 1 --- [/api/v2/spans}}] org.springframework.web.HttpLogging      : Response 202 ACCEPTED
+2025-11-17 23:25:55.118 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/delta
+2025-11-17 23:25:55.118 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:25:55.123 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:25:55.123 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2025-11-17 23:25:56.170 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP PUT http://service-discovery:8761/eureka/apps/API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080?status=UP&lastDirtyTimestamp=1763421864635
+2025-11-17 23:25:56.170 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:25:56.175 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:26:25.137 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : HTTP GET http://service-discovery:8761/eureka/apps/delta
+2025-11-17 23:26:25.138 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:26:25.142 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+2025-11-17 23:26:25.142 DEBUG [API-GATEWAY,,] 1 --- [freshExecutor-0] o.s.web.client.RestTemplate              : Reading to [org.springframework.cloud.netflix.eureka.http.EurekaApplications]
+2025-11-17 23:26:26.176 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : HTTP PUT http://service-discovery:8761/eureka/apps/API-GATEWAY/api-gateway-fb57c7b67-88cp8:API-GATEWAY:8080?status=UP&lastDirtyTimestamp=1763421864635
+2025-11-17 23:26:26.177 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Accept=[application/json, application/*+json]
+2025-11-17 23:26:26.182 DEBUG [API-GATEWAY,,] 1 --- [tbeatExecutor-0] o.s.web.client.RestTemplate              : Response 200 OK
+santiago@fedora:~/Documentos/clases/Semestre8/Plataformas2/Proyecto/Ecommerce-deploy/ecommerce-app$ 
+

@@ -37,11 +37,11 @@ service-discovery:
   replicaCount: 1
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "100m"
+      memory: "1024Mi"
+      cpu: "250m"
     limits:
-      memory: "768Mi"
-      cpu: "300m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8761
@@ -59,11 +59,11 @@ cloud-config:
   replicaCount: 1
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "200m"
     limits:
-      memory: "768Mi"
-      cpu: "300m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 9296
@@ -123,11 +123,11 @@ order-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
+      memory: "1Gi"
       cpu: "200m"
+    limits:
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8300
@@ -145,11 +145,11 @@ payment-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
+      memory: "1Gi"
       cpu: "200m"
+    limits:
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8400
@@ -167,11 +167,11 @@ product-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
+      memory: "1Gi"
       cpu: "200m"
+    limits:
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8500

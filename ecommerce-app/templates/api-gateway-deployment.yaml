@@ -53,7 +53,10 @@ spec:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          # JWT configuration from Secrets
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           - name: JWT_SECRET_KEY
             valueFrom:
               secretKeyRef:
@@ -96,4 +99,8 @@ spec:
           limits:
             memory: {{ index .Values "api-gateway" "resources" "limits" "memory" }}
             cpu: {{ index .Values "api-gateway" "resources" "limits" "cpu" }}
-{{- end }}
+      initContainers:
+      - name: wait-for-dependencies
+        image: busybox
+        command: ['sh', '-c', 'until nc -z zipkin 9411 && nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
+{{- end }}{{- end }}

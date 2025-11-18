@@ -53,6 +53,10 @@ spec:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
           # Database credentials from Secrets
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
@@ -96,4 +100,8 @@ spec:
           limits:
             memory: {{ index .Values "favourite-service" "resources" "limits" "memory" }}
             cpu: {{ index .Values "favourite-service" "resources" "limits" "cpu" }}
+      initContainers:
+      - name: wait-for-dependencies
+        image: busybox
+        command: ['sh', '-c', 'until nc -z zipkin 9411 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
 {{- end }}
