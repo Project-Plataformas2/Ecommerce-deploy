@@ -11,6 +11,26 @@ global:
   configServerUrl: "http://cloud-config:9296/"  # SPRING_CONFIG_IMPORT
   springConfigImport: "optional:configserver:http://cloud-config:9296/"
 
+# === CONFIGURACIONES DE BASE DE DATOS Y SECRETS MOVIDAS DE values.yaml ===
+
+# Configuración de Secretos
+secrets:
+  name: ecommerce-secrets
+  mysqlRootPassword: "rootpassword123" 
+  mongoRootPassword: "rootpassword123"
+
+# Configuración de Persistencia (General/Global)
+persistence:
+  enabled: true
+  storageClass: "standard" 
+  size: 5Gi
+
+# Imágenes de Bases de Datos
+mysql:
+  image: mysql:8.0
+mongo:
+  image: mongo:4.4
+
 # Servicios Core (de tu primer Compose)
 zipkin:
   enabled: true  # Agregado para control en Helm
