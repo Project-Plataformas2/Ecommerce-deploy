@@ -1,3 +1,4 @@
+{{- if (index .Values "service-discovery" "hpa" "enabled") }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -16,4 +17,5 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ index .Values "service-discovery" "hpa" "cpuUtilization" }}
+          averageUtilization: {{ index .Values "service-discovery" "hpa" "targetCPUUtilizationPercentage" }}
+{{- end }}

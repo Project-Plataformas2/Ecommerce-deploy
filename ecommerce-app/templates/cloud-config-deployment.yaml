@@ -22,7 +22,7 @@ spec:
             command: ['sh', '-c', 'until nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
       containers: # anidado dentro de spec
       - name: cloud-config
-        image: {{ index .Values "cloud-config" "image" "repository" }}:{{ index  .Values "cloud-config" "image" "tag" }}
+        image: {{ index .Values "cloud-config" "image" "repository" }}:{{ index .Values "cloud-config" "image" "tag" }}
         ports:
           - containerPort: {{ index .Values "cloud-config" "service" "port" }}
         env:
@@ -31,52 +31,62 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_PROFILES_ACTIVE
+                optional: false
           - name: SPRING_ZIPKIN_BASE_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_ZIPKIN_BASE_URL
+                optional: false
           - name: SPRING_CONFIG_IMPORT
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_CONFIG_IMPORT
+                optional: false
           - name: EUREKA_CLIENT_REGION
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_REGION
+                optional: false
           - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+                optional: false
           - name: EUREKA_CLIENT_SERVICEURL_MYZONE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
+                optional: false
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-
+                optional: false
           - name: EUREKA_INSTANCE_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: cloud-config.EUREKA_INSTANCE_HOSTNAME
+                optional: false
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+                optional: false
+          - name: JAVA_TOOL_OPTIONS
+            value: "-XX:MaxRAMPercentage=70.0"
         resources:
           requests:
-            memory: {{index .Values "cloud-config" "resources" "requests" "memory"}}
-            cpu: {{index .Values "cloud-config" "resources" "requests" "cpu"}}
+            memory: {{ index .Values "cloud-config" "resources" "requests" "memory" }}
+            cpu: {{ index .Values "cloud-config" "resources" "requests" "cpu" }}
           limits:
-            memory: {{index .Values "cloud-config" "resources" "limits" "memory"}}
-            cpu: {{index .Values "cloud-config" "resources" "limits" "cpu"}}
+            memory: {{ index .Values "cloud-config" "resources" "limits" "memory" }}
+            cpu: {{ index .Values "cloud-config" "resources" "limits" "cpu" }}
 {{- end }}

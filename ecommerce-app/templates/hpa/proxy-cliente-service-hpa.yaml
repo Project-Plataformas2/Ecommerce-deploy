@@ -1,7 +1,8 @@
+{{- if (index .Values "proxy-client" "hpa" "enabled") }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: proxy-client-service-hpa
+  name: proxy-client-hpa
   namespace: {{ .Values.global.namespace }}
 spec:
   scaleTargetRef:
@@ -16,4 +17,5 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ index .Values "proxy-client" "hpa" "cpuUtilization" }}
+          averageUtilization: {{ index .Values "proxy-client" "hpa" "targetCPUUtilizationPercentage" }}
+{{- end }}

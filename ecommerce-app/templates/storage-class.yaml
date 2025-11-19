@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-managed-disk
+provisioner: disk.csi.azure.com
+parameters:
+  skuname: StandardSSD_LRS  # Tipo de disco en Azure
+reclaimPolicy: Retain       # IMPORTANTE: Si borras el Helm release, el disco NO se borra (seguridad punto 5)
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true

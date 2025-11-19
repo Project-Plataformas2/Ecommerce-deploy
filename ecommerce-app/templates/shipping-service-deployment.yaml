@@ -1,4 +1,4 @@
-{{- if (index .Values "shipping-service" "enabled")  }}
+{{- if (index .Values "shipping-service" "enabled") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,58 +19,79 @@ spec:
       initContainers:
           - name: wait-for-dependencies
             image: busybox
-            command: ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 5; done;']
+            command: ['sh', '-c', 'until nc -z service-discovery 8761 && nc -z mysql 3306; do echo waiting for dependencies; sleep 5; done;']
       containers:
       - name: shipping-service
         image: {{ index .Values "shipping-service" "image" "repository" }}:{{ index .Values "shipping-service" "image" "tag" }}
         ports:
           - containerPort: {{ index .Values "shipping-service" "service" "port" }}
         env:
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://mysql:3306/shippingdb?allowPublicKeyRetrieval=true&useSSL=false
+          - name: SPRING_DATASOURCE_USERNAME
+            value: root
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ecommerce-secrets
+                key: mysql-root-password
+                optional: false
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: update
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_PROFILES_ACTIVE
+                optional: false
           - name: SPRING_ZIPKIN_BASE_URL
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_ZIPKIN_BASE_URL
+                optional: false
           - name: SPRING_CONFIG_IMPORT
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: SPRING_CONFIG_IMPORT
+                optional: false
           - name: EUREKA_CLIENT_REGION
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_REGION
+                optional: false
           - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+                optional: false
           - name: EUREKA_CLIENT_SERVICEURL_MYZONE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_MYZONE
+                optional: false
           - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+                optional: false
           - name: EUREKA_INSTANCE_HOSTNAME
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: shipping-service.EUREKA_INSTANCE_HOSTNAME
+                optional: false
           - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
             valueFrom:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+                optional: false
           - name: JAVA_TOOL_OPTIONS
             value: "-XX:MaxRAMPercentage=70.0"
         resources:
