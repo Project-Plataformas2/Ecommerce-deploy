@@ -97,7 +97,7 @@ api-gateway:
 
 
 proxy-client:
-  enabled: true
+  enabled: false
   image:
     repository: "selimhorri/proxy-client-ecommerce-boot"
     tag: "0.1.0"
@@ -107,8 +107,8 @@ proxy-client:
       memory: "1Gi"
       cpu: "250m"
     limits:
-      memory: "1Gi"
-      cpu: "2Gi"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8900
@@ -120,18 +120,18 @@ proxy-client:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 order-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/order-service-ecommerce-boot"
     tag: "0.1.0"
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8300
@@ -150,11 +150,11 @@ payment-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8400
@@ -173,11 +173,11 @@ product-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8500
@@ -196,11 +196,11 @@ shipping-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8600
@@ -218,11 +218,11 @@ user-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8700
@@ -243,11 +243,11 @@ favourite-service:
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
+      memory: "1Gi"
+      cpu: "250m"
     limits:
-      memory: "512Mi"
-      cpu: "200m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8800

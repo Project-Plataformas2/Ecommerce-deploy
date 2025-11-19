@@ -16,6 +16,10 @@ spec:
       labels:
         app: order-service
     spec:
+      initContainers:
+          - name: wait-for-dependencies
+            image: busybox
+            command: ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 5; done;']
       containers:
       - name: order-service
         image: {{ index .Values "order-service" "image" "repository" }}:{{ index .Values "order-service" "image" "tag" }}
@@ -57,6 +61,18 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          - name: EUREKA_INSTANCE_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: order-service.EUREKA_INSTANCE_HOSTNAME
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+          - name: JAVA_TOOL_OPTIONS
+            value: "-XX:MaxRAMPercentage=70.0"
         resources:
           requests:
             memory: {{ index .Values "order-service" "resources" "requests" "memory" }}
