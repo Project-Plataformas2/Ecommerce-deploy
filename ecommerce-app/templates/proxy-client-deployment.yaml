@@ -1,4 +1,4 @@
-{{- if index .Values "proxy-client" }}
+{{- if (index .Values "proxy-client" "enabled") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

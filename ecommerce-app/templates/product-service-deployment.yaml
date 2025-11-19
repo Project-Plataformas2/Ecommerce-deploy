@@ -1,4 +1,4 @@
-{{- if index .Values "product-service" }}
+{{- if (index .Values "product-service" "enabled")}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -9,6 +9,7 @@ global:
   eurekaServiceUrlMyzone: "http://service-discovery:8761/eureka"  # EUREKA_CLIENT_SERVICEURL_MYZONE
   eurekaServiceUrlDefaultZone: "http://service-discovery:8761/eureka/"  # EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
   configServerUrl: "http://cloud-config:9296/"  # SPRING_CONFIG_IMPORT
+  springConfigImport: "optional:configserver:http://cloud-config:9296/"
 
 # Servicios Core (de tu primer Compose)
 zipkin:
@@ -37,11 +38,11 @@ service-discovery:
   replicaCount: 1
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "100m"
+      memory: "1024Mi"
+      cpu: "250m"
     limits:
-      memory: "768Mi"
-      cpu: "300m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8761
@@ -54,16 +55,16 @@ service-discovery:
 cloud-config:
   enabled: true
   image:
-    repository: "selimhorri/cloud-config-ecommerce-boot"
-    tag: "0.1.0"
+    repository: "juaca2004/cloud-config"
+    tag: "0.2.0"
   replicaCount: 1
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "100m"
+      memory: "1024Mi"
+      cpu: "250m"
     limits:
-      memory: "768Mi"
-      cpu: "300m"
+      memory: "2Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 9296
@@ -74,6 +75,7 @@ cloud-config:
 
 # Servicios Dependientes
 api-gateway:
+  enabled: false
   image:
     repository: "selimhorri/api-gateway-ecommerce-boot"
     tag: "0.1.0"
@@ -95,17 +97,18 @@ api-gateway:
 
 
 proxy-client:
+  enabled: true
   image:
     repository: "selimhorri/proxy-client-ecommerce-boot"
     tag: "0.1.0"
   replicaCount: 1
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
       memory: "512Mi"
-      cpu: "200m"
+      cpu: "250m"
+    limits:
+      memory: "1Gi"
+      cpu: "500m"
   service:
     type: ClusterIP
     port: 8900
@@ -117,6 +120,7 @@ proxy-client:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 order-service:
+  enabled: false
   image:
     repository: "selimhorri/order-service-ecommerce-boot"
     tag: "0.1.0"
@@ -139,6 +143,7 @@ order-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 payment-service:
+  enabled: false
   image:
     repository: "selimhorri/payment-service-ecommerce-boot"
     tag: "0.1.0"
@@ -161,6 +166,7 @@ payment-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 product-service:
+  enabled: false
   image:
     repository: "selimhorri/product-service-ecommerce-boot"
     tag: "0.1.0"
@@ -183,6 +189,7 @@ product-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 shipping-service:
+  enabled: false
   image:
     repository: "selimhorri/shipping-service-ecommerce-boot"
     tag: "0.1.0"
@@ -204,6 +211,7 @@ shipping-service:
 
 
 user-service:
+  enabled: false
   image:
     repository: "selimhorri/user-service-ecommerce-boot"
     tag: "0.1.0"
@@ -228,6 +236,7 @@ user-service:
     cpuUtilization: 60
 
 favourite-service:
+  enabled: false
   image:
     repository: "selimhorri/favourite-service-ecommerce-boot"
     tag: "0.1.0"
