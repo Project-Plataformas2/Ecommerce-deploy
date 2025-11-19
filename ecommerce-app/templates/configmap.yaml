@@ -7,12 +7,23 @@ data:
 # Configuraciones globales de Spring Boot
   SPRING_PROFILES_ACTIVE: {{ .Values.global.springProfilesActive | quote }}
   SPRING_ZIPKIN_BASE_URL: {{ .Values.global.zipkinBaseUrl | quote }}
-  SPRING_CONFIG_IMPORT: {{ printf "optional:configserver:%s" .Values.global.configServerUrl | quote }}
+  SPRING_CONFIG_IMPORT: {{ .Values.global.springConfigImport | quote }}
   EUREKA_CLIENT_REGION: {{ .Values.global.eurekaRegion | quote }}
   EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT: {{ .Values.global.eurekaAvailabilityZones | quote }}
   EUREKA_CLIENT_SERVICEURL_MYZONE: {{ .Values.global.eurekaServiceUrlMyzone | quote }}
   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: {{ .Values.global.eurekaServiceUrlDefaultZone | quote }}
-  EUREKKA_INSTANCE_HOSTNAME: "favourite-service"
-  EUREKA_INSTANCE_PREFER_IP_ADDRESS: "false"
+  EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+  EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
+  EUREKA_CLIENT_FETCH_REGISTRY: "true"
 
 # Otras configuraciones específicas de servicios pueden añadirse aquí
+
+  cloud-config.EUREKA_INSTANCE_HOSTNAME: "cloud-config"
+  api-gateway.EUREKA_INSTANCE_HOSTNAME: "api-gateway"
+  proxy-client.EUREKA_INSTANCE_HOSTNAME: "proxy-client"
+  order-service.EUREKA_INSTANCE_HOSTNAME: "order-service"
+  payment-service.EUREKA_INSTANCE_HOSTNAME: "payment-service"
+  product-service.EUREKA_INSTANCE_HOSTNAME: "product-service"
+  shipping-service.EUREKA_INSTANCE_HOSTNAME: "shipping-service"
+  user-service.EUREKA_INSTANCE_HOSTNAME: "user-service"
+  favourite-service.EUREKA_INSTANCE_HOSTNAME: "favourite-service"

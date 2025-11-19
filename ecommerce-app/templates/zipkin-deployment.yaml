@@ -1,4 +1,4 @@
-{{- if .Values.zipkin.enabled }}
+{{- if (index .Values "zipkin" "enabled")}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
