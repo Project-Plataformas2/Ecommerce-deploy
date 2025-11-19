@@ -75,7 +75,7 @@ cloud-config:
 
 # Servicios Dependientes
 api-gateway:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/api-gateway-ecommerce-boot"
     tag: "0.1.0"
@@ -97,7 +97,7 @@ api-gateway:
 
 
 proxy-client:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/proxy-client-ecommerce-boot"
     tag: "0.1.0"
@@ -120,7 +120,7 @@ proxy-client:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 order-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/order-service-ecommerce-boot"
     tag: "0.1.0"
@@ -143,7 +143,7 @@ order-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 payment-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/payment-service-ecommerce-boot"
     tag: "0.1.0"
@@ -166,7 +166,7 @@ payment-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 product-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/product-service-ecommerce-boot"
     tag: "0.1.0"
@@ -189,7 +189,7 @@ product-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 shipping-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/shipping-service-ecommerce-boot"
     tag: "0.1.0"
