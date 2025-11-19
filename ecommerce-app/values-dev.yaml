@@ -104,11 +104,11 @@ proxy-client:
   replicaCount: 1
   resources:
     requests:
-      memory: "512Mi"
+      memory: "1Gi"
       cpu: "250m"
     limits:
       memory: "1Gi"
-      cpu: "500m"
+      cpu: "2Gi"
   service:
     type: ClusterIP
     port: 8900
