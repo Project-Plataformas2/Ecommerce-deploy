@@ -143,7 +143,7 @@ order-service:
 
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 payment-service:
-  enabled: true
+  enabled: false
   image:
     repository: "selimhorri/payment-service-ecommerce-boot"
     tag: "0.1.0"
@@ -211,7 +211,7 @@ shipping-service:
 
 
 user-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/user-service-ecommerce-boot"
     tag: "0.1.0"
@@ -236,7 +236,7 @@ user-service:
     cpuUtilization: 60
 
 favourite-service:
-  enabled: false
+  enabled: true
   image:
     repository: "selimhorri/favourite-service-ecommerce-boot"
     tag: "0.1.0"
