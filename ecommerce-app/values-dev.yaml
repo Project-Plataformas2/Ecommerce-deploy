@@ -259,7 +259,7 @@ favourite-service:
 # Configuración de Ingress (para api-gateway, expuesto externamente)
 ingress:
   enabled: true
-  className: "nginx"
+  className: "nginx-internal"
   hosts:
     - host: api-gateway.dev.example.com  # Cambia a tu dominio real (e.g., localhost para Minikube)
       paths:
