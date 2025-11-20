@@ -28,7 +28,7 @@ jobs:
           cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
             
-      # 4. Renderizar las plantillas usando values-dev.yaml (Verificación de sintaxis YAML)
+      # 4. Renderizar las plantillas
       - name: Validate Templates
         run: |
           cd ecommerce-app/
@@ -42,11 +42,18 @@ jobs:
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
             
-      # 6. Instalar o Actualizar el chart en el clúster temporal (SOLUCIÓN AL ERROR)
+      # 5.5 LIMPIEZA PREVENTIVA
+      - name: Cleanup ServiceAccount Conflict
+        run: |
+          # Esto elimina el SA huérfano si existe, sin detener el workflow si no lo encuentra.
+          kubectl delete serviceaccount zipkin-test-ecommerce-app-service-discovery-sa \
+            --namespace dev \
+            --ignore-not-found=true || true
+
+      # 6. Instalar o Actualizar el chart (IDEMPOTENTE)
       - name: Helm Upgrade/Install Test
         run: |
           cd ecommerce-app/
-          # Se usa 'upgrade --install' en lugar de 'install' para manejar instalaciones previas.
           helm upgrade --install zipkin-test ./ \
             -f values-dev.yaml \
             --namespace dev \
