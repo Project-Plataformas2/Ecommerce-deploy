@@ -1,0 +1,11 @@
+# templates/serviceAccount/cloud-config-sa.yaml
+
+{{- if index .Values "cloud-config" "enabled" }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "ecommerce-app.fullname" . }}-cloud-config-sa
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+{{- end }}

@@ -16,6 +16,7 @@ spec:
       labels:
         app: cloud-config
     spec: # spec del Pod
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-cloud-config-sa
       initContainers:
           - name: wait-for-dependencies
             image: busybox:1.28

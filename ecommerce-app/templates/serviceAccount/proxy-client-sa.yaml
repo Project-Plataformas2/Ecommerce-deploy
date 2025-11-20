@@ -1,0 +1,11 @@
+# templates/serviceAccount/proxy-client-sa.yaml
+
+{{- if index .Values "proxy-client" "enabled" }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "ecommerce-app.fullname" . }}-proxy-client-sa
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+{{- end }}

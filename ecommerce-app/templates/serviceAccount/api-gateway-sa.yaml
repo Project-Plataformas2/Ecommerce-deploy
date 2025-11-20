@@ -1,0 +1,11 @@
+# templates/serviceAccount/api-gateway-sa.yaml
+
+{{- if index .Values "api-gateway" "enabled" }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "ecommerce-app.fullname" . }}-api-gateway-sa
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+{{- end }}

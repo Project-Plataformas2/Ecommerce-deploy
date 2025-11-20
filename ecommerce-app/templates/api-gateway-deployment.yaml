@@ -16,6 +16,7 @@ spec:
       labels:
         app: api-gateway
     spec:
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-api-gateway-sa
       initContainers:
           - name: wait-for-dependencies
             image: busybox
