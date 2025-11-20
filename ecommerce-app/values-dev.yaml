@@ -55,8 +55,9 @@ service-discovery:
 cloud-config:
   enabled: true
   image:
-    repository: "juaca2004/cloud-config"
-    tag: "0.2.0"
+   # repository: "juaca2004/cloud-config"
+    repository: "selimhorri/cloud-config-ecommerce-boot"
+    tag: "0.1.0"
   replicaCount: 1
   resources:
     requests:
@@ -82,11 +83,11 @@ api-gateway:
   replicaCount: 2  # Más réplicas para testing en dev
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
+      memory: "768Mi"
       cpu: "500m"
+    limits:
+      memory: "1.5Gi"
+      cpu: "1000m"
   service:
     type: ClusterIP
     port: 8080
@@ -259,6 +260,8 @@ favourite-service:
 # Configuración de Ingress (para api-gateway, expuesto externamente)
 ingress:
   enabled: true
+  enabledTls: true
+  allowHttp: true
   className: "nginx-internal"
   hosts:
     - host: api-gateway.dev.example.com  # Cambia a tu dominio real (e.g., localhost para Minikube)

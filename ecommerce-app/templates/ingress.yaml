@@ -5,21 +5,24 @@ metadata:
   name: api-gateway-ingress
   namespace: {{ .Values.global.namespace }}
   annotations:
-    # 1. CLAVE: Cambiar de "gce-internal" a "gce" para usar el Balanceador de Carga Público.
-    kubernetes.io/ingress.class: "gce" 
-    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "{{ .Values.ingress.allowHttp }}"
+    kubernetes.io/ingress.global-static-ip-name: "ecommerce-ingress-ip-225"
+    kubernetes.io/ingress.health-check-path: "/app/actuator/health"
 
-    ## 👇 CAMBIO CLAVE — health-check correcto
-    kubernetes.io/ingress.health-check-path: "/app/actuator/health/liveness"
 spec:
+  {{- if .Values.ingress.enabledTls }}
+  tls:
+    - secretName: api-gateway-tls
+  {{- end }}
   rules:
-    - http: 
+    - http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: api-gateway
-              port:
-                number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
 {{- end }}

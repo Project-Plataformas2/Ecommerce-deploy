@@ -29,7 +29,7 @@ spec:
           httpGet:
             path: /app/actuator/health/readiness
             port: {{ index .Values "api-gateway" "service" "port" }}
-          initialDelaySeconds: 480 # Dale 60 segundos para terminar el initContainer y empezar a arrancar
+          initialDelaySeconds: 600 # Dale 60 segundos para terminar el initContainer y empezar a arrancar
           periodSeconds: 10
           timeoutSeconds: 5
           failureThreshold: 3
@@ -38,7 +38,7 @@ spec:
           httpGet:
             path: /app/actuator/health/liveness
             port: {{ index .Values "api-gateway" "service" "port" }}
-          initialDelaySeconds: 510 # Un poco más de tiempo que el readiness
+          initialDelaySeconds: 630 # Un poco más de tiempo que el readiness
           periodSeconds: 15
           timeoutSeconds: 5
           failureThreshold: 3
