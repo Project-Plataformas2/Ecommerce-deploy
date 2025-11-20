@@ -5,33 +5,24 @@ metadata:
   name: api-gateway-ingress
   namespace: {{ .Values.global.namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /  # Opcional: Rewrites paths
-    # Agrega más annotations si necesitas (e.g., rate limiting, auth)
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.allow-http: "{{ .Values.ingress.allowHttp }}"
+    kubernetes.io/ingress.global-static-ip-name: "ecommerce-ingress-ip-225"
+    kubernetes.io/ingress.health-check-path: "/app/actuator/health"
+
 spec:
-  ingressClassName: {{ .Values.ingress.className }}  # "nginx"
-  rules:
-  {{- range .Values.ingress.hosts }}
-  - host: {{ .host }}
-    http:
-      paths:
-      {{- range .paths }}
-      - path: {{ .path }}
-        pathType: {{ .pathType }}
-        backend:
-          service:
-            name: api-gateway  # Service del api-gateway
-            port:
-              number: 8080
-      {{- end }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.ingress.enabledTls }}
   tls:
-  {{- range .Values.ingress.tls }}
-  - hosts:
-    {{- range .hosts }}
-    - {{ . }}
-    {{- end }}
-    secretName: {{ .secretName }}
+    - secretName: api-gateway-tls
   {{- end }}
-  {{- end }}
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080
 {{- end }}

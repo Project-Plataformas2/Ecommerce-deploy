@@ -25,6 +25,23 @@ spec:
         image: {{ index .Values "api-gateway" "image" "repository" }}:{{ index .Values "api-gateway" "image" "tag" }}
         ports:
           - containerPort: {{ index .Values "api-gateway" "service" "port" }}
+        readinessProbe:
+          httpGet:
+            path: /app/actuator/health/readiness
+            port: {{ index .Values "api-gateway" "service" "port" }}
+          initialDelaySeconds: 600 # Dale 60 segundos para terminar el initContainer y empezar a arrancar
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        livenessProbe:
+          httpGet:
+            path: /app/actuator/health/liveness
+            port: {{ index .Values "api-gateway" "service" "port" }}
+          initialDelaySeconds: 630 # Un poco más de tiempo que el readiness
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
         env:
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
