@@ -16,6 +16,7 @@ spec:
       labels:
         app: proxy-client
     spec:
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-proxy-client-sa # <-- ¡AÑADIR AQUÍ!
       initContainers:
           - name: wait-for-dependencies
             image: busybox
