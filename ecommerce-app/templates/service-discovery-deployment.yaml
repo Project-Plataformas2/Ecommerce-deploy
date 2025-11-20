@@ -16,6 +16,7 @@ spec:
       labels:
         app: service-discovery 
     spec: # spec del Pod
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-service-discovery-sa
       containers: # anidado dentro de spec
       - name: service-discovery
         image: {{ index .Values "service-discovery" "image" "repository" }}:{{ index  .Values "service-discovery" "image" "tag" }}
