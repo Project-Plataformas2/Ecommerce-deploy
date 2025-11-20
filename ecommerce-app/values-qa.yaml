@@ -1,8 +1,8 @@
 # Configuraciones globales (compartidas por todos los servicios)
 global:
-  namespace: dev
+  namespace: stage
   pullPolicy: Always
-  springProfilesActive: "dev"  # SPRING_PROFILES_ACTIVE=dev de Compose
+  springProfilesActive: "stage"  # SPRING_PROFILES_ACTIVE=dev de Compose
   zipkinBaseUrl: "http://zipkin:9411"  # SPRING_ZIPKIN_BASE-URL
   eurekaRegion: "default"
   eurekaAvailabilityZones: "myzone"
