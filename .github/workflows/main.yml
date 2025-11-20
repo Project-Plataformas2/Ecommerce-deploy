@@ -5,30 +5,30 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+          
 jobs:
   helm-verify:
     name: Lint & Verify Helm Chart
     runs-on: ubuntu-latest
-            
+          
     steps:
-      # 1. Clonar el repositorio
+      # Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
-            
-      # 2. Instalar Helm
+          
+      #  Instalar Helm
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           helm version
-            
-      # 3. Validar sintaxis del Chart
+          
+      # 3️Validar sintaxis del Chart
       - name: Lint Helm Chart
         run: |
           cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
-            
-      # 4. Renderizar las plantillas
+          
+      # 4️Renderizar las plantillas usando values-dev.yaml
       - name: Validate Templates
         run: |
           cd ecommerce-app/
@@ -37,29 +37,21 @@ jobs:
             --namespace dev \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-            
-      # 5. Crear clúster local de prueba con Kind
+          
+      # 5️ Crear clúster local de prueba con Kind
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
-            
-      # 5.5 LIMPIEZA PREVENTIVA
-      - name: Cleanup ServiceAccount Conflict
-        run: |
-          # Esto elimina el SA huérfano si existe, sin detener el workflow si no lo encuentra.
-          kubectl delete serviceaccount zipkin-test-ecommerce-app-service-discovery-sa \
-            --namespace dev \
-            --ignore-not-found=true || true
-
-      # 6. Instalar o Actualizar el chart (IDEMPOTENTE)
-      - name: Helm Upgrade/Install Test
+          
+      # 6️Instalar el chart en el clúster temporal (para verificar despliegue)
+      - name: Helm Install Test
         run: |
           cd ecommerce-app/
-          helm upgrade --install zipkin-test ./ \
+          helm install zipkin-test ./ \
             -f values-dev.yaml \
             --namespace dev \
             --create-namespace \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-            
+          
           # Listar los pods para confirmar que el chart se despliega
           kubectl get pods -n dev
