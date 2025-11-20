@@ -7,13 +7,10 @@ metadata:
   annotations:
     # 1. CLAVE: Cambiar de "gce-internal" a "gce" para usar el Balanceador de Carga Público.
     kubernetes.io/ingress.class: "gce" 
-    
-    # 2. IMPORTANTE: Eliminar o comentar la referencia a la IP estática interna.
-    #    (La eliminamos para que GKE asigne una IP pública automáticamente).
-    # kubernetes.io/ingress.regional-static-ip-name: "gke-internal-ingress-ip" 
-    
-    # 3. Necesario para que GCLB provisione correctamente
     kubernetes.io/ingress.allow-http: "true"
+
+    ## 👇 CAMBIO CLAVE — health-check correcto
+    kubernetes.io/ingress.health-check-path: "/app/actuator/health/liveness"
 spec:
   rules:
     - http: 
