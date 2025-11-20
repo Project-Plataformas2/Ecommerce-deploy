@@ -19,7 +19,7 @@ spec:
       initContainers:
           - name: wait-for-dependencies
             image: busybox
-            command: ['sh', '-c', 'until nc -z service-discovery 8761 && nc -z api-gateway 8080; do echo waiting for dependencies; sleep 5; done;']
+            command: ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761 && nc -z api-gateway 8080; do echo waiting for dependencies; sleep 5; done;']
       containers:
       - name: proxy-client
         image: {{ index .Values "proxy-client" "image" "repository" }}:{{ index .Values "proxy-client" "image" "tag" }}

@@ -19,7 +19,7 @@ spec:
       initContainers:
           - name: wait-for-dependencies
             image: busybox
-            command: ['sh', '-c', 'until nc -z service-discovery 8761; do echo waiting for dependencies; sleep 5; done;']
+            command: ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
       containers:
       - name: favourite-service
         image: {{ index .Values "favourite-service" "image" "repository" }}:{{ index .Values "favourite-service" "image" "tag" }}
