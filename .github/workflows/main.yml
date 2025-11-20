@@ -1,5 +1,5 @@
 name: Verify Helm Chart (ecommerce-app)
-
+          
 on:
   push:
     branches: [ main ]
@@ -10,25 +10,25 @@ jobs:
   helm-verify:
     name: Lint & Verify Helm Chart
     runs-on: ubuntu-latest
-
+            
     steps:
-      # Clonar el repositorio
+      # 1. Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      #  Instalar Helm
+            
+      # 2. Instalar Helm
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           helm version
-
-      # 3️Validar sintaxis del Chart
+            
+      # 3. Validar sintaxis del Chart
       - name: Lint Helm Chart
         run: |
           cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
-
-      # 4️Renderizar las plantillas usando values-dev.yaml
+            
+      # 4. Renderizar las plantillas usando values-dev.yaml (Verificación de sintaxis YAML)
       - name: Validate Templates
         run: |
           cd ecommerce-app/
@@ -37,21 +37,22 @@ jobs:
             --namespace dev \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-
-      # 5️ Crear clúster local de prueba con Kind
+            
+      # 5. Crear clúster local de prueba con Kind
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
-
-      # 6️Instalar el chart en el clúster temporal (para verificar despliegue)
-      - name: Helm Install Test
+            
+      # 6. Instalar o Actualizar el chart en el clúster temporal (SOLUCIÓN AL ERROR)
+      - name: Helm Upgrade/Install Test
         run: |
           cd ecommerce-app/
-          helm install zipkin-test ./ \
+          # Se usa 'upgrade --install' en lugar de 'install' para manejar instalaciones previas.
+          helm upgrade --install zipkin-test ./ \
             -f values-dev.yaml \
             --namespace dev \
             --create-namespace \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-
+            
           # Listar los pods para confirmar que el chart se despliega
           kubectl get pods -n dev
