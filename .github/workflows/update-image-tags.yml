@@ -3,7 +3,6 @@ name: Update Helm Chart Image Tags
 on:
   repository_dispatch:
     types: 
-      # Solo reacciona al evento de actualización de microservicios de backend
       - update-image-tags 
 
 jobs:
@@ -23,65 +22,39 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
           sudo apt-get update && sudo apt-get install -y jq
 
-      - name: Update Image Details in Target Values File
+      - name: Update Image Details in Target Values File (Blue/Green version)
         id: update_values
         run: |
-          echo "Received event: ${{ github.event.action }}"
-          
-          # Variables del Payload (Carga Útil)
           TARGET_VALUES_FILE_NAME="${{ github.event.client_payload.target_values_file }}"
           IMAGE_VERSION_TAG="${{ github.event.client_payload.image_version_tag }}"
           IMAGE_REGISTRY_BASE="${{ github.event.client_payload.image_registry_base }}"
-          ENVIRONMENT_NAME="${{ github.event.client_payload.environment_name }}"
           SERVICES_JSON_STRING='${{ toJSON(github.event.client_payload.services_to_update) }}'
-          
-          if [ -z "$TARGET_VALUES_FILE_NAME" ]; then
-            echo "::error::target_values_file not provided in payload!"
-            exit 1
-          fi
-          
-          # --- CORRECCIÓN DE LÓGICA: Se ajusta la ruta a la estructura real (ecommerce-app/) ---
+
           VALUES_FILE_PATH="ecommerce-app/${TARGET_VALUES_FILE_NAME}"
-          
-          # Lógica de fallback para crear el archivo de values si no existe
-          if [ ! -f "$VALUES_FILE_PATH" ]; then
-            # Ahora busca la plantilla dentro de la carpeta ecommerce-app y usa values-prod.yaml
-            if [[ "$TARGET_VALUES_FILE_NAME" == "values-dev.yaml" || "$TARGET_VALUES_FILE_NAME" == "values-qa.yaml" ]] && [ -f "ecommerce-app/values-prod.yaml" ]; then
-              echo "Warning: Values file '$VALUES_FILE_PATH' not found. Creating from 'ecommerce-app/values-prod.yaml'."
-              cp "ecommerce-app/values-prod.yaml" "$VALUES_FILE_PATH"
-            else
-              echo "::error::Values file '$VALUES_FILE_PATH' not found and cannot be auto-created."
-              exit 1
-            fi
-          fi
 
-          # --- Lógica para Microservicios Backend (update-image-tags) ---
-          if [ -z "$IMAGE_VERSION_TAG" ] || [ -z "$IMAGE_REGISTRY_BASE" ] || [ -z "$ENVIRONMENT_NAME" ]; then
-            echo "::error::Required payload fields for update are missing!"
+          if [ ! -f "$VALUES_FILE_PATH" ]; then
+            echo "::error::Values file '$VALUES_FILE_PATH' not found."
             exit 1
           fi
 
-          # Se utiliza 'jq' para parsear el array de servicios y 'while IFS= read -r' para iterar de forma segura
-          echo "$SERVICES_JSON_STRING" | jq -r '.[]' | while IFS= read -r service_name; do
-            if [ -z "$service_name" ]; then continue; fi
-            
-            FULL_IMAGE_REPO_PATH_DOCKER_HUB="${IMAGE_REGISTRY_BASE}/${service_name}"
-            NEW_IMAGE_TAG="${IMAGE_VERSION_TAG}"
-            
-            # Los comandos yq deben apuntar a la ruta del servicio dentro del archivo values.yaml
-            YQ_COMMAND_REPO="yq eval \".${service_name}.image.repository = \\\"${FULL_IMAGE_REPO_PATH_DOCKER_HUB}\\\"\" -i \"${VALUES_FILE_PATH}\""
-            YQ_COMMAND_TAG="yq eval \".${service_name}.image.tag = \\\"${NEW_IMAGE_TAG}\\\"\" -i \"${VALUES_FILE_PATH}\""
-            
-            echo "Updating ${service_name} repo to ${FULL_IMAGE_REPO_PATH_DOCKER_HUB}"
-            eval "${YQ_COMMAND_REPO}"; if [ $? -ne 0 ]; then echo "::error::yq failed (repo) for ${service_name}"; exit 1; fi
-            echo "Updating ${service_name} tag to ${NEW_IMAGE_TAG}"
-            eval "${YQ_COMMAND_TAG}"; if [ $? -ne 0 ]; then echo "::error::yq failed (tag) for ${service_name}"; exit 1; fi
+          echo "$SERVICES_JSON_STRING" | jq -r '.[]' | while read -r service_name; do
+            [ -z "$service_name" ] && continue
+
+            FULL_IMAGE_PATH="${IMAGE_REGISTRY_BASE}/${service_name}"
+            NEW_TAG="${IMAGE_VERSION_TAG}"
+
+            echo "Updating ${service_name} Blue => ${FULL_IMAGE_PATH}:${NEW_TAG}"
+            yq eval ".${service_name}.blue.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
+            yq eval ".${service_name}.blue.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
+
+            echo "Updating ${service_name} Green => ${FULL_IMAGE_PATH}:${NEW_TAG}"
+            yq eval ".${service_name}.green.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
+            yq eval ".${service_name}.green.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
           done
-          echo "Microservices update complete for ${VALUES_FILE_PATH}."
-          
-          echo "--- Final content of '${VALUES_FILE_PATH}' after updates ---"
-          cat "${VALUES_FILE_PATH}"
+
+          echo "Image updates complete for ${VALUES_FILE_PATH}."
           echo "VALUES_FILE_TO_COMMIT=${VALUES_FILE_PATH}" >> $GITHUB_ENV
+
 
       - name: Commit and Push Changes
         env:
