@@ -40,13 +40,15 @@ jobs:
             exit 1
           fi
           
-          VALUES_FILE_PATH="charts/ecommerce/${TARGET_VALUES_FILE_NAME}"
+          # --- CORRECCIÓN DE LÓGICA: Se ajusta la ruta a la estructura real (ecommerce-app/) ---
+          VALUES_FILE_PATH="ecommerce-app/${TARGET_VALUES_FILE_NAME}"
           
           # Lógica de fallback para crear el archivo de values si no existe
           if [ ! -f "$VALUES_FILE_PATH" ]; then
-            if [[ "$TARGET_VALUES_FILE_NAME" == "values-dev.yaml" || "$TARGET_VALUES_FILE_NAME" == "values-qa.yaml" ]] && [ -f "charts/ecommerce/values-master.yaml" ]; then
-              echo "Warning: Values file '$VALUES_FILE_PATH' not found. Creating from 'values-master.yaml'."
-              cp "charts/ecommerce/values-master.yaml" "$VALUES_FILE_PATH"
+            # Ahora busca la plantilla dentro de la carpeta ecommerce-app y usa values-prod.yaml
+            if [[ "$TARGET_VALUES_FILE_NAME" == "values-dev.yaml" || "$TARGET_VALUES_FILE_NAME" == "values-qa.yaml" ]] && [ -f "ecommerce-app/values-prod.yaml" ]; then
+              echo "Warning: Values file '$VALUES_FILE_PATH' not found. Creating from 'ecommerce-app/values-prod.yaml'."
+              cp "ecommerce-app/values-prod.yaml" "$VALUES_FILE_PATH"
             else
               echo "::error::Values file '$VALUES_FILE_PATH' not found and cannot be auto-created."
               exit 1
@@ -59,12 +61,14 @@ jobs:
             exit 1
           fi
 
+          # Se utiliza 'jq' para parsear el array de servicios y 'while IFS= read -r' para iterar de forma segura
           echo "$SERVICES_JSON_STRING" | jq -r '.[]' | while IFS= read -r service_name; do
             if [ -z "$service_name" ]; then continue; fi
             
             FULL_IMAGE_REPO_PATH_DOCKER_HUB="${IMAGE_REGISTRY_BASE}/${service_name}"
             NEW_IMAGE_TAG="${IMAGE_VERSION_TAG}"
             
+            # Los comandos yq deben apuntar a la ruta del servicio dentro del archivo values.yaml
             YQ_COMMAND_REPO="yq eval \".${service_name}.image.repository = \\\"${FULL_IMAGE_REPO_PATH_DOCKER_HUB}\\\"\" -i \"${VALUES_FILE_PATH}\""
             YQ_COMMAND_TAG="yq eval \".${service_name}.image.tag = \\\"${NEW_IMAGE_TAG}\\\"\" -i \"${VALUES_FILE_PATH}\""
             
