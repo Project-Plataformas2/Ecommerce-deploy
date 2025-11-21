@@ -2,19 +2,20 @@
 global:
   namespace: dev
   pullPolicy: Always
-  springProfilesActive: "dev" # SPRING_PROFILES_ACTIVE=dev de Compose
-  zipkinBaseUrl: "http://zipkin:9411" # SPRING_ZIPKIN_BASE-URL
+  springProfilesActive: "dev"  # SPRING_PROFILES_ACTIVE=dev de Compose
+  zipkinBaseUrl: "http://zipkin:9411"  # SPRING_ZIPKIN_BASE-URL
   eurekaRegion: "default"
   eurekaAvailabilityZones: "myzone"
-  eurekaServiceUrlMyzone: "http://service-discovery:8761/eureka" # EUREKA_CLIENT_SERVICEURL_MYZONE
-  eurekaServiceUrlDefaultZone: "http://service-discovery:8761/eureka/" # EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-  configServerUrl: "http://cloud-config:9296/" # SPRING_CONFIG_IMPORT
+  eurekaServiceUrlMyzone: "http://service-discovery:8761/eureka"  # EUREKA_CLIENT_SERVICEURL_MYZONE
+  eurekaServiceUrlDefaultZone: "http://service-discovery:8761/eureka/"  # EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+  configServerUrl: "http://cloud-config:9296/"  # SPRING_CONFIG_IMPORT
   springConfigImport: "optional:configserver:http://cloud-config:9296/"
+
 # Servicios Core (de tu primer Compose)
 zipkin:
-  enabled: true # Agregado para control en Helm
+  enabled: true  # Agregado para control en Helm
   image:
-    repository: "openzipkin/zipkin" # Imagen fija de Compose
+    repository: "openzipkin/zipkin"  # Imagen fija de Compose
     tag: "latest"
   replicaCount: 1
   resources:
@@ -26,8 +27,8 @@ zipkin:
       cpu: "200m"
   service:
     type: ClusterIP
-    port: 9411 # Puerto de Compose
-  env: [] # Zipkin no tiene env extra en Compose
+    port: 9411  # Puerto de Compose
+  env: []  # Zipkin no tiene env extra en Compose
   blue:
     repository: "openzipkin/zipkin"
     tag: "latest"
@@ -36,11 +37,12 @@ zipkin:
     repository: "openzipkin/zipkin"
     tag: "latest"
     replicaCount: 1
+
 service-discovery:
   enabled: true
   image:
     repository: "selimhorri/service-discovery-ecommerce-boot"
-    tag: "0.1.0" # Tag inicial; sobrescrito por pipeline a TAG
+    tag: "0.1.0"  # Tag inicial; sobrescrito por pipeline a TAG
   replicaCount: 1
   resources:
     requests:
@@ -57,17 +59,19 @@ service-discovery:
     maxReplicas: 2
     cpuUtilization: 60
   blue:
-    repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    repository: "selimhorri/service-discovery-ecommerce-boot"
+    tag: "0.1.0"
     replicaCount: 1
   green:
-    repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    repository: "selimhorri/service-discovery-ecommerce-boot"
+    tag: "0.1.0"
     replicaCount: 1
+
+
 cloud-config:
   enabled: true
   image:
-    # repository: "juaca2004/cloud-config"
+   # repository: "juaca2004/cloud-config"
     repository: "selimhorri/cloud-config-ecommerce-boot"
     tag: "0.1.0"
   replicaCount: 1
@@ -86,20 +90,22 @@ cloud-config:
     maxReplicas: 2
     cpuUtilization: 60
   blue:
-    repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    repository: "selimhorri/cloud-config-ecommerce-boot"
+    tag: "0.1.0"
     replicaCount: 1
   green:
-    repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    repository: "selimhorri/cloud-config-ecommerce-boot"
+    tag: "0.1.0"
     replicaCount: 1
+
+
 # Servicios Dependientes
 api-gateway:
   enabled: true
   image:
     repository: "selimhorri/api-gateway-ecommerce-boot"
     tag: "0.1.0"
-  replicaCount: 2 # Más réplicas para testing en dev
+  replicaCount: 2  # Más réplicas para testing en dev
   resources:
     requests:
       memory: "768Mi"
@@ -114,12 +120,8 @@ api-gateway:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/api-gateway
-    tag: v0.4.0
-  green:
-    repository: juaca2004/api-gateway
-    tag: v0.4.0
+
+
 proxy-client:
   enabled: true
   image:
@@ -140,12 +142,8 @@ proxy-client:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/proxy-client
-    tag: v0.4.0
-  green:
-    repository: juaca2004/proxy-client
-    tag: v0.4.0
+
+
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 order-service:
   enabled: true
@@ -167,12 +165,8 @@ order-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/order-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/order-service
-    tag: v0.4.0
+
+
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 payment-service:
   enabled: true
@@ -194,12 +188,8 @@ payment-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/payment-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/payment-service
-    tag: v0.4.0
+
+
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 product-service:
   enabled: true
@@ -221,12 +211,8 @@ product-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/product-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/product-service
-    tag: v0.4.0
+
+
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 shipping-service:
   enabled: true
@@ -248,12 +234,8 @@ shipping-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/shipping-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/shipping-service
-    tag: v0.4.0
+
+
 user-service:
   enabled: true
   image:
@@ -271,19 +253,14 @@ user-service:
     type: ClusterIP
     port: 8700
   persistence:
-    enabled: true # Si usa DB, agrega PVC
+    enabled: true  # Si usa DB, agrega PVC
     storageClass: "standard"
     size: "5Gi"
   hpa:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/user-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/user-service
-    tag: v0.4.0
+
 favourite-service:
   enabled: true
   image:
@@ -304,12 +281,7 @@ favourite-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  blue:
-    repository: juaca2004/favourite-service
-    tag: v0.4.0
-  green:
-    repository: juaca2004/favourite-service
-    tag: v0.4.0
+
 # Configuración de Ingress (para api-gateway, expuesto externamente)
 ingress:
   enabled: true
@@ -317,21 +289,25 @@ ingress:
   allowHttp: true
   className: "nginx-internal"
   hosts:
-    - host: api-gateway.dev.example.com # Cambia a tu dominio real (e.g., localhost para Minikube)
+    - host: api-gateway.dev.example.com  # Cambia a tu dominio real (e.g., localhost para Minikube)
       paths:
         - path: /
           pathType: Prefix
-  tls: # Opcional en dev; habilita para HTTPS
+  tls:  # Opcional en dev; habilita para HTTPS
     - secretName: api-gateway-tls
       hosts:
         - api-gateway.dev.example.com
+
 blueGreen:
   activeColor: blue # valores posibles: blue | green
+
+
 # Monitoreo (opcional en dev)
 prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
+
 # Autoscaling (ligero en dev)
 hpa:
   enabled: true
