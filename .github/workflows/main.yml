@@ -59,5 +59,4 @@ jobs:
             --create-namespace \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-          kubectl wait --for=condition=Ready pods --all --namespace dev --timeout=180s
           kubectl get pods -n dev
