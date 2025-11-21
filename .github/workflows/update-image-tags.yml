@@ -39,17 +39,22 @@ jobs:
 
           echo "$SERVICES_JSON_STRING" | jq -r '.[]' | while read -r service_name; do
             [ -z "$service_name" ] && continue
-
+          
             FULL_IMAGE_PATH="${IMAGE_REGISTRY_BASE}/${service_name}"
             NEW_TAG="${IMAGE_VERSION_TAG}"
-
-            echo "Updating ${service_name} Blue => ${FULL_IMAGE_PATH}:${NEW_TAG}"
-            yq eval ".${service_name}.blue.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
-            yq eval ".${service_name}.blue.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
-
-            echo "Updating ${service_name} Green => ${FULL_IMAGE_PATH}:${NEW_TAG}"
-            yq eval ".${service_name}.green.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
-            yq eval ".${service_name}.green.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
+          
+            # Detectar si el servicio usa Blue/Green
+            if yq eval ".${service_name}.blue" "${VALUES_FILE_PATH}" >/dev/null 2>&1; then
+              echo " Servicio ${service_name} usa Blue/Green. Actualizando ambos..."
+              yq eval ".${service_name}.blue.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
+              yq eval ".${service_name}.blue.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
+              yq eval ".${service_name}.green.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
+              yq eval ".${service_name}.green.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
+            else
+              echo " Servicio ${service_name} NO usa Blue/Green. Actualizando tag estándar..."
+              yq eval ".${service_name}.image.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
+              yq eval ".${service_name}.image.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
+            fi
           done
 
           echo "Image updates complete for ${VALUES_FILE_PATH}."
