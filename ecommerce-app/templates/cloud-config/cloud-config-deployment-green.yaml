@@ -1,0 +1,85 @@
+{{- if (index .Values "cloud-config" "enabled")}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-config-green
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: cloud-config
+spec:
+  replicas: {{ index .Values "cloud-config" "green" "replicaCount" }}
+  selector:
+    matchLabels:
+      app: cloud-config
+      color: green
+  template:
+    metadata:
+      labels:
+        app: cloud-config
+        color: green
+    spec: # spec del Pod
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-cloud-config-sa
+      initContainers:
+          - name: wait-for-dependencies
+            image: busybox:1.28
+            command: ['sh', '-c', 'until nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
+      containers: # anidado dentro de spec
+      - name: cloud-config
+        image: {{ index .Values "cloud-config" "green" "repository" }}:{{ index  .Values "cloud-config" "green" "tag" }}
+        ports:
+          - containerPort: {{ index .Values "cloud-config" "service" "port" }}
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_PROFILES_ACTIVE
+          - name: SPRING_ZIPKIN_BASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_ZIPKIN_BASE_URL
+          - name: SPRING_CONFIG_IMPORT
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: SPRING_CONFIG_IMPORT
+          - name: EUREKA_CLIENT_REGION
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_REGION
+          - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+          - name: EUREKA_CLIENT_SERVICEURL_MYZONE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_MYZONE
+          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+
+          - name: EUREKA_INSTANCE_HOSTNAME
+            valueFrom:
+              configMapKeyRef:
+                name: ecommerce-config
+                key: cloud-config.EUREKA_INSTANCE_HOSTNAME
+        resources:
+          requests:
+            memory: {{index .Values "cloud-config" "resources" "requests" "memory"}}
+            cpu: {{index .Values "cloud-config" "resources" "requests" "cpu"}}
+          limits:
+            memory: {{index .Values "cloud-config" "resources" "limits" "memory"}}
+            cpu: {{index .Values "cloud-config" "resources" "limits" "cpu"}}
+{{- end }}

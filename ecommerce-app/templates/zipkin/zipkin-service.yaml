@@ -8,6 +8,7 @@ metadata:
 spec:
   selector:
     app: zipkin
+    color: {{ .Values.blueGreen.activeColor }}
   ports:
   - port: {{ .Values.zipkin.service.port }} 
     targetPort: 9411

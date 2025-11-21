@@ -1,0 +1,33 @@
+{{- if (index .Values "zipkin" "enabled")}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-blue
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: zipkin
+spec:
+  replicas: {{ .Values.zipkin.blue.replicaCount}}
+  selector:
+    matchLabels:
+      app: zipkin
+      color: blue
+  template:
+    metadata:
+      labels:
+        app: zipkin
+        color: blue
+    spec:
+      containers:
+        - name: zipkin
+          image: {{ .Values.zipkin.blue.repository }}:{{ .Values.zipkin.blue.tag }}
+          ports:
+            - containerPort: {{ .Values.zipkin.service.port }}
+          resources:
+            requests:
+              memory: {{ .Values.zipkin.resources.requests.memory }}
+              cpu: {{ .Values.zipkin.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.zipkin.resources.limits.memory }}
+              cpu: {{ .Values.zipkin.resources.limits.cpu }}
+{{- end }}
