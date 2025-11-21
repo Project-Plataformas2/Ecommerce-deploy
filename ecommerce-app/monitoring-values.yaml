@@ -1,0 +1,9 @@
+grafana:
+  adminPassword: "S3gura!2025"
+  persistence:
+    enabled: true
+prometheus:
+  prometheusSpec:
+    retention: "15d"
+alertmanager:
+  enabled: true
