@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: favourite-service
+  namespace: monitoring
+  labels:
+    release: monitoring 
+spec:
+  selector:
+    matchLabels:
+      app: favourite-service
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.global.namespace }}    
+  endpoints:
+    - port: http                     
+      path: /favourite-service/actuator/prometheus
+      interval: 15s

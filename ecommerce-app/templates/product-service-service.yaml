@@ -9,7 +9,8 @@ spec:
   selector:
     app: product-service
   ports:
-  - port: {{ index .Values "product-service" "service" "port" }}
+  - name: http
+    port: {{ index .Values "product-service" "service" "port" }}
     targetPort: {{ index .Values "product-service" "service" "port" }}
     protocol: TCP
   type: {{ index .Values "product-service" "service" "type" }}
