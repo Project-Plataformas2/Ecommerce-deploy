@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cloud-config
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: cloud-config
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.global.namespace }}    
+  endpoints:
+    - port: http                     
+      path: /actuator/prometheus
+      interval: 15s

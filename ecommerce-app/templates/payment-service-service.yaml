@@ -9,7 +9,8 @@ spec:
   selector:
     app: payment-service
   ports:
-  - port: {{ index .Values "payment-service" "service" "port" }}
+  - name: http
+    port: {{ index .Values "payment-service" "service" "port" }}
     targetPort: {{ index .Values "payment-service" "service" "port" }}
     protocol: TCP
   type: {{ index .Values "payment-service" "service" "type" }}

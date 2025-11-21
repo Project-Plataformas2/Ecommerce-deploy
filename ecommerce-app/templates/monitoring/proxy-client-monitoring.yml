@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: proxy-client
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: proxy-client
+  namespaceSelector:
+    matchNames:
+      - {{ .Values.global.namespace }}    
+  endpoints:
+    - port: http                     
+      path: /app/actuator/prometheus
+      interval: 15s

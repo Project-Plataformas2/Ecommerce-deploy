@@ -9,7 +9,8 @@ spec:
   selector:
     app: api-gateway
   ports:
-  - port: {{ index .Values "api-gateway" "service" "port" }}
+  - name: http
+    port: {{ index .Values "api-gateway" "service" "port" }}
     targetPort: {{ index .Values "api-gateway" "service" "port" }}
     protocol: TCP
   type: {{ index .Values "api-gateway" "service" "type" }}

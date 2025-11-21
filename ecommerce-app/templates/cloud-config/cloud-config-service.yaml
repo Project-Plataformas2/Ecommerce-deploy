@@ -10,7 +10,8 @@ spec:
     app: cloud-config
     color: {{ .Values.blueGreen.activeColor }}
   ports: 
-  - port: {{ index .Values "cloud-config" "service" "port" }}
+  - name: http
+    port: {{ index .Values "cloud-config" "service" "port" }}
     targetPort: {{ index .Values "cloud-config" "service" "port" }}
     protocol: TCP 
   type: {{ index .Values "cloud-config" "service" "type" }}

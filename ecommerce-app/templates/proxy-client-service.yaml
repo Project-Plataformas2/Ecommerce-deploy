@@ -9,7 +9,8 @@ spec:
   selector:
     app: proxy-client
   ports:
-  - port: {{ index .Values "proxy-client" "service" "port" }}
+  - name: http
+    port: {{ index .Values "proxy-client" "service" "port" }}
     targetPort: {{ index .Values "proxy-client" "service" "port" }}
     protocol: TCP
   type: {{ index .Values "proxy-client" "service" "type" }}

@@ -9,7 +9,8 @@ spec:
   selector:
     app: user-service
   ports:
-  - port: {{ index .Values "user-service" "service" "port" }}
+  - name: http
+    port: {{ index .Values "user-service" "service" "port" }}
     targetPort: {{ index .Values "user-service" "service" "port" }}
     protocol: TCP
   type: {{ index .Values "user-service" "service" "type" }}
