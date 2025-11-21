@@ -12,23 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Instalar Helm
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           helm version
 
-      # 3️⃣ Validar sintaxis del Chart
       - name: Lint Helm Chart
         run: |
           cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
 
-      # 4️⃣ Renderizar las plantillas usando values-dev.yaml
       - name: Validate Templates
         run: |
           cd ecommerce-app/
@@ -38,33 +34,22 @@ jobs:
             --set zipkin.enabled=true \
             --set global.namespace=dev
 
-      # 5️⃣ Crear clúster local de prueba con Kind
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
 
-      # 6️⃣ Instalar Prometheus CRDs
-      - name: Install Prometheus CRDs
-        run: |
-          kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
-
-      # 7️⃣ Instalar Prometheus usando Helm
-      - name: Install Prometheus
+      # Instalar Prometheus y sus CRDs vía Helm (evita errores de bundle)
+      - name: Install Prometheus with CRDs
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo update
           kubectl create namespace monitoring || true
-          helm install prometheus prometheus-community/prometheus \
+          helm install prometheus prometheus-community/kube-prometheus-stack \
             --namespace monitoring \
-            --set alertmanager.persistentVolume.enabled=false \
-            --set server.persistentVolume.enabled=false
-
-      # 8️⃣ Esperar a que los pods de Prometheus estén listos
-      - name: Wait for Prometheus pods
-        run: |
+            --set prometheus.prometheusSpec.persistentVolume.enabled=false \
+            --set alertmanager.persistentVolume.enabled=false
           kubectl wait --for=condition=Ready pods --all --namespace monitoring --timeout=180s
           kubectl get pods -n monitoring
 
-      # 9️⃣ Instalar el chart de ecommerce-app en el clúster temporal
       - name: Helm Install Test
         run: |
           cd ecommerce-app/
@@ -74,9 +59,5 @@ jobs:
             --create-namespace \
             --set zipkin.enabled=true \
             --set global.namespace=dev
-
-      # 🔟 Esperar a que los pods de ecommerce estén listos
-      - name: Wait for ecommerce-app pods
-        run: |
           kubectl wait --for=condition=Ready pods --all --namespace dev --timeout=180s
           kubectl get pods -n dev
