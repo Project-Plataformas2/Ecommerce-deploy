@@ -315,12 +315,3 @@ hpa:
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
 
-#Canary
-
-
-canary:
-  enabled: true
-  weight: 10
-  image:
-    tag: "0.1.0stage"
-
