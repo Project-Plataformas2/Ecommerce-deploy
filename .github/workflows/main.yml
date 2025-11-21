@@ -12,23 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Clonar el repositorio
+      # 1️⃣ Clonar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      #  Instalar Helm
+      # 2️⃣ Instalar Helm
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           helm version
 
-      # 3️Validar sintaxis del Chart
+      # 3️⃣ Validar sintaxis del Chart
       - name: Lint Helm Chart
         run: |
           cd ecommerce-app/
           helm lint ./ -f values-dev.yaml
 
-      # 4️Renderizar las plantillas usando values-dev.yaml
+      # 4️⃣ Renderizar las plantillas usando values-dev.yaml
       - name: Validate Templates
         run: |
           cd ecommerce-app/
@@ -38,11 +38,23 @@ jobs:
             --set zipkin.enabled=true \
             --set global.namespace=dev
 
-      # 5️ Crear clúster local de prueba con Kind
+      # 5️⃣ Crear clúster local de prueba con Kind
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
 
-      # 6️Instalar el chart en el clúster temporal (para verificar despliegue)
+      # 6️⃣ Instalar Prometheus usando Helm
+      - name: Install Prometheus
+        run: |
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          kubectl create namespace monitoring || true
+          helm install prometheus prometheus-community/prometheus \
+            --namespace monitoring \
+            --set alertmanager.persistentVolume.enabled=false \
+            --set server.persistentVolume.enabled=false
+          kubectl get pods -n monitoring
+
+      # 7️⃣ Instalar el chart en el clúster temporal (para verificar despliegue)
       - name: Helm Install Test
         run: |
           cd ecommerce-app/
