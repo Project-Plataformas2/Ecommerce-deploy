@@ -42,7 +42,12 @@ jobs:
       - name: Create Kind cluster
         uses: helm/kind-action@v1.8.0
 
-      # 6️⃣ Instalar Prometheus usando Helm
+      # 6️⃣ Instalar Prometheus CRDs
+      - name: Install Prometheus CRDs
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/main/bundle.yaml
+
+      # 7️⃣ Instalar Prometheus usando Helm
       - name: Install Prometheus
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -52,9 +57,14 @@ jobs:
             --namespace monitoring \
             --set alertmanager.persistentVolume.enabled=false \
             --set server.persistentVolume.enabled=false
+
+      # 8️⃣ Esperar a que los pods de Prometheus estén listos
+      - name: Wait for Prometheus pods
+        run: |
+          kubectl wait --for=condition=Ready pods --all --namespace monitoring --timeout=180s
           kubectl get pods -n monitoring
 
-      # 7️⃣ Instalar el chart en el clúster temporal (para verificar despliegue)
+      # 9️⃣ Instalar el chart de ecommerce-app en el clúster temporal
       - name: Helm Install Test
         run: |
           cd ecommerce-app/
@@ -65,5 +75,8 @@ jobs:
             --set zipkin.enabled=true \
             --set global.namespace=dev
 
-          # Listar los pods para confirmar que el chart se despliega
+      # 🔟 Esperar a que los pods de ecommerce estén listos
+      - name: Wait for ecommerce-app pods
+        run: |
+          kubectl wait --for=condition=Ready pods --all --namespace dev --timeout=180s
           kubectl get pods -n dev
