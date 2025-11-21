@@ -299,7 +299,7 @@ ingress:
         - api-gateway.dev.example.com
 
 blueGreen:
-  activeColor: green # valores posibles: blue | green
+  activeColor: blue # valores posibles: blue | green
 
 
 # Monitoreo (opcional en dev)
