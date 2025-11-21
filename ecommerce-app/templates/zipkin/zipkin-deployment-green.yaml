@@ -2,23 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zipkin
+  name: zipkin-green
   namespace: {{ .Values.global.namespace }}
   labels:
     app: zipkin
 spec:
-  replicas: {{ .Values.zipkin.replicaCount}}
+  replicas: {{ .Values.zipkin.green.replicaCount}}
   selector:
     matchLabels:
       app: zipkin
+      color: green
   template:
     metadata:
       labels:
         app: zipkin
+        color: green
     spec:
       containers:
         - name: zipkin
-          image: {{ .Values.zipkin.image.repository }}:{{ .Values.zipkin.image.tag }}
+          image: {{ .Values.zipkin.green.repository }}:{{ .Values.zipkin.green.tag }}
           ports:
             - containerPort: {{ .Values.zipkin.service.port }}
           resources:

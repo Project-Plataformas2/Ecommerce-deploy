@@ -1,31 +1,29 @@
-{{- if (index .Values "cloud-config" "enabled")}}
+{{- if index .Values "service-discovery" "enabled" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloud-config
+  name: service-discovery-blue
   namespace: {{ .Values.global.namespace }}
   labels:
-    app: cloud-config
+    app: service-discovery
 spec:
-  replicas: {{ index .Values "cloud-config" "replicaCount" }}
+  replicas: {{ index .Values "service-discovery" "blue" "replicaCount" }}
   selector:
     matchLabels:
-      app: cloud-config
+      app: service-discovery
+      color: blue
   template:
     metadata:
       labels:
-        app: cloud-config
+        app: service-discovery 
+        color: blue
     spec: # spec del Pod
-      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-cloud-config-sa
-      initContainers:
-          - name: wait-for-dependencies
-            image: busybox:1.28
-            command: ['sh', '-c', 'until nc -z service-discovery 8761; do echo waiting for dependencies; sleep 2; done;']
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-service-discovery-sa
       containers: # anidado dentro de spec
-      - name: cloud-config
-        image: {{ index .Values "cloud-config" "image" "repository" }}:{{ index  .Values "cloud-config" "image" "tag" }}
+      - name: service-discovery
+        image: {{ index .Values "service-discovery" "blue" "repository" }}:{{ index  .Values "service-discovery" "blue" "tag" }}
         ports:
-          - containerPort: {{ index .Values "cloud-config" "service" "port" }}
+          - containerPort: {{ index .Values "service-discovery" "service" "port" }}
         env:
           - name: SPRING_PROFILES_ACTIVE
             valueFrom:
@@ -62,22 +60,11 @@ spec:
               configMapKeyRef:
                 name: ecommerce-config
                 key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-
-          - name: EUREKA_INSTANCE_HOSTNAME
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: cloud-config.EUREKA_INSTANCE_HOSTNAME
         resources:
           requests:
-            memory: {{index .Values "cloud-config" "resources" "requests" "memory"}}
-            cpu: {{index .Values "cloud-config" "resources" "requests" "cpu"}}
+            memory: {{index .Values "service-discovery" "resources" "requests" "memory"}}
+            cpu: {{index .Values "service-discovery" "resources" "requests" "cpu"}}
           limits:
-            memory: {{index .Values "cloud-config" "resources" "limits" "memory"}}
-            cpu: {{index .Values "cloud-config" "resources" "limits" "cpu"}}
+            memory: {{index .Values "service-discovery" "resources" "limits" "memory"}}
+            cpu: {{index .Values "service-discovery" "resources" "limits" "cpu"}}
 {{- end }}

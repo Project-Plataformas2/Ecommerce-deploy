@@ -8,6 +8,7 @@ metadata:
 spec:
   selector:
     app: service-discovery
+    color: {{ .Values.blueGreen.activeColor }}
   ports: 
   - port: {{ index .Values "service-discovery" "service" "port" }}
     targetPort: {{ index .Values "service-discovery" "service" "port" }}
