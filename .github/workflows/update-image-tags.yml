@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
           sudo apt-get update && sudo apt-get install -y jq
-
+      
       - name: Update Image Details in Target Values File (Blue/Green version)
         id: update_values
         run: |
@@ -29,34 +29,38 @@ jobs:
           IMAGE_VERSION_TAG="${{ github.event.client_payload.image_version_tag }}"
           IMAGE_REGISTRY_BASE="${{ github.event.client_payload.image_registry_base }}"
           SERVICES_JSON_STRING='${{ toJSON(github.event.client_payload.services_to_update) }}'
-
+      
           VALUES_FILE_PATH="ecommerce-app/${TARGET_VALUES_FILE_NAME}"
-
+      
           if [ ! -f "$VALUES_FILE_PATH" ]; then
             echo "::error::Values file '$VALUES_FILE_PATH' not found."
             exit 1
           fi
-
+      
+          # Lista de servicios que deben usar Blue/Green
+          SERVICES_WITH_BLUE_GREEN=("service-discovery" "cloud-config")
+      
           echo "$SERVICES_JSON_STRING" | jq -r '.[]' | while read -r service_name; do
             [ -z "$service_name" ] && continue
-          
+            
             FULL_IMAGE_PATH="${IMAGE_REGISTRY_BASE}/${service_name}"
             NEW_TAG="${IMAGE_VERSION_TAG}"
-          
-            # Detectar si el servicio usa Blue/Green
-            if yq eval ".${service_name}.blue" "${VALUES_FILE_PATH}" >/dev/null 2>&1; then
-              echo " Servicio ${service_name} usa Blue/Green. Actualizando ambos..."
+      
+            # Verificar si el servicio está en la lista de Blue/Green
+            if [[ " ${SERVICES_WITH_BLUE_GREEN[@]} " =~ " ${service_name} " ]]; then
+              echo "Servicio ${service_name} usa Blue/Green. Actualizando ambos..."
+              # Crear la sección blue/green si no existe
               yq eval ".${service_name}.blue.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
               yq eval ".${service_name}.blue.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
               yq eval ".${service_name}.green.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
               yq eval ".${service_name}.green.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
             else
-              echo " Servicio ${service_name} NO usa Blue/Green. Actualizando tag estándar..."
+              echo "Servicio ${service_name} NO usa Blue/Green. Actualizando tag estándar..."
               yq eval ".${service_name}.image.repository = \"${FULL_IMAGE_PATH}\"" -i "${VALUES_FILE_PATH}"
               yq eval ".${service_name}.image.tag = \"${NEW_TAG}\"" -i "${VALUES_FILE_PATH}"
             fi
           done
-
+      
           echo "Image updates complete for ${VALUES_FILE_PATH}."
           echo "VALUES_FILE_TO_COMMIT=${VALUES_FILE_PATH}" >> $GITHUB_ENV
 
