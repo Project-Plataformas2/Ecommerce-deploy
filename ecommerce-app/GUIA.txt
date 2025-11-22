@@ -47,22 +47,6 @@ kubectl create configmap loki-datasource \
 kubectl label configmap loki-datasource grafana_datasource=1 -n monitoring
 
 
-
-5. instalamos jeager
-
-helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-
-helm repo update
-
-
-helm upgrade --install jaeger jaegertracing/jaeger \
-  --namespace monitoring \
-  --create-namespace \
-  --set storage.type=memory \
-  --set collector.zipkin.hostPort="9411" \
-  --set query.basePath="/" \
-  --set agent.enabled=true
-
 5. luego creamos el realase de myapp
 
 helm install myapp ./ -f values-dev.yaml --namespace dev --create-namespace
