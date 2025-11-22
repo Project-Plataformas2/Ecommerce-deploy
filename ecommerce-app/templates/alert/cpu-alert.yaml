@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cpu-critical-alert
+  namespace: monitoring
+  labels:
+    release: monitoring  
+spec:
+  groups:
+  - name: cpu.rules
+    rules:
+    - alert: HighCPUUsage
+      expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance)) > 80
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "CPU usage is above 80% for 2 minutes"
+        description: "Node {{`{{ $labels.instance }}`}} CPU usage is critically high"
