@@ -12,41 +12,56 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -out tls.crt \
   -subj "/CN=${STATIC_IP}/O=SelfSignedProject"
 
-3. Luego desde la carpeta ecommerce-app creamos el loki
+3. Luego desde la carpeta ecommerce-app creamos el prometheus y grafana
 
 # Crear namespace (ignorar si ya existe)
 kubectl create ns monitoring || true
 
-# Agregar repo de Grafana y actualizar
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo update
-
-# Instalar Loki Stack con Grafana y Promtail
-helm upgrade --install loki-stack grafana/loki-stack \
-  --namespace monitoring \
-  --set grafana.enabled=true \
-  --set promtail.enabled=true
-
-# Esperar a que los pods de Loki estén listos
-kubectl wait --for=condition=Ready pod -l app.kubernetes.io/name=loki -n monitoring --timeout=180s
-kubectl get pods -n monitoring
-
-
-4. Luego creamos el grafana y prometheus
-
-# Agregar repo de Prometheus y actualizar
+kubectl create ns monitoring
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
-# Instalar kube-prometheus-stack
 helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
-  --namespace monitoring \
-  --create-namespace \
+  -n monitoring \
   -f monitoring-values.yaml
 
-# Esperar a que todos los pods estén listos
+# Esperar a que los pods de Loki estén listos
 kubectl wait --for=condition=Ready pods --all -n monitoring --timeout=180s
 kubectl get pods -n monitoring
+
+
+4. Luego creamos loki
+
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+helm upgrade --install loki-stack grafana/loki-stack \
+  -n monitoring \
+  -f values-loki.yaml
+  
+
+kubectl create configmap loki-datasource \
+  -n monitoring \
+  --from-file=datasources.yaml=values-loki-datasource.yaml
+
+kubectl label configmap loki-datasource grafana_datasource=1 -n monitoring
+
+
+
+5. instalamos jeager
+
+helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+
+helm repo update
+
+
+helm upgrade --install jaeger jaegertracing/jaeger \
+  --namespace monitoring \
+  --create-namespace \
+  --set storage.type=memory \
+  --set collector.zipkin.hostPort="9411" \
+  --set query.basePath="/" \
+  --set agent.enabled=true
 
 5. luego creamos el realase de myapp
 
