@@ -91,7 +91,7 @@ spec:
               secretKeyRef:
                 name: db-credentials
                 key: DB_URL
-        {{- end }}
+          {{- end }}
         resources:
           requests:
             memory: {{ index .Values "user-service" "resources" "requests" "memory" }}
