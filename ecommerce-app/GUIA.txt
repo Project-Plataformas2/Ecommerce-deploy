@@ -38,18 +38,19 @@ helm repo update
 helm upgrade --install loki-stack grafana/loki-stack \
   -n monitoring \
   -f values-loki.yaml
-  
 
-kubectl create configmap loki-datasource \
+helm upgrade --install tempo grafana/tempo \
   -n monitoring \
-  --from-file=datasources.yaml=values-loki-datasource.yaml
-
-kubectl label configmap loki-datasource grafana_datasource=1 -n monitoring
+  --set traces.otlp.grpc.enabled=true \
+  --set traces.otlp.http.enabled=true \
+  --set tempoQuery.enabled=true
 
 
 5. luego creamos el realase de myapp
 
 helm install myapp ./ -f values-dev.yaml --namespace dev --create-namespace
+
+kubectl delete pod -n monitoring -l app.kubernetes.io/name=grafana
 
 
 
