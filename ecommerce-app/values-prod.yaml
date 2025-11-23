@@ -26,8 +26,8 @@ zipkin:
       cpu: "200m"
   service:
     type: ClusterIP
-    port: 9411  # Puerto de Compose
-  env: []  # Zipkin no tiene env extra en Compose
+    port: 9411 # Puerto de Compose
+  env: [] # Zipkin no tiene env extra en Compose
   blue:
     repository: "openzipkin/zipkin"
     tag: "latest"
@@ -40,8 +40,8 @@ zipkin:
 service-discovery:
   enabled: true
   image:
-    repository: "juaca2004/service-discovery"
-    tag: "v0.3.0" # Tag inicial; sobrescrito por pipeline a TAG
+    repository: "selimhorri/service-discovery-ecommerce-boot"
+    tag: "0.1.0" # Tag inicial; sobrescrito por pipeline a TAG
   replicaCount: 1
   resources:
     requests:
@@ -58,12 +58,12 @@ service-discovery:
     maxReplicas: 2
     cpuUtilization: 60
   blue:
-    repository: "selimhorri/service-discovery-ecommerce-boot"
-    tag: "0.1.0"
+    repository: "juaca2004/service-discovery"
+    tag: "v0.4.0"
     replicaCount: 1
   green:
-    repository: "selimhorri/service-discovery-ecommerce-boot"
-    tag: "0.1.0"
+    repository: "juaca2004/service-discovery"
+    tag: "v0.4.0"
     replicaCount: 1
 
 
@@ -71,8 +71,8 @@ cloud-config:
   enabled: true
   image:
     # repository: "juaca2004/cloud-config"
-    repository: "juaca2004/cloud-config"
-    tag: "v0.3.0"
+    repository: "selimhorri/cloud-config-ecommerce-boot"
+    tag: "0.1.0"
   replicaCount: 1
   resources:
     requests:
@@ -89,12 +89,12 @@ cloud-config:
     maxReplicas: 2
     cpuUtilization: 60
   blue:
-    repository: "selimhorri/cloud-config-ecommerce-boot"
-    tag: "0.1.0"
+    repository: "juaca2004/cloud-config"
+    tag: "v0.4.0"
     replicaCount: 1
   green:
-    repository: "selimhorri/cloud-config-ecommerce-boot"
-    tag: "0.1.0"
+    repository: "juaca2004/cloud-config"
+    tag: "v0.4.0"
     replicaCount: 1
 
 
@@ -103,7 +103,7 @@ api-gateway:
   enabled: true
   image:
     repository: "juaca2004/api-gateway"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 2 # Más réplicas para testing en dev
   resources:
     requests:
@@ -123,7 +123,7 @@ proxy-client:
   enabled: true
   image:
     repository: "juaca2004/proxy-client"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -144,7 +144,7 @@ order-service:
   enabled: true
   image:
     repository: "juaca2004/order-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -165,7 +165,7 @@ payment-service:
   enabled: true
   image:
     repository: "juaca2004/payment-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -186,7 +186,7 @@ product-service:
   enabled: true
   image:
     repository: "juaca2004/product-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -207,7 +207,7 @@ shipping-service:
   enabled: true
   image:
     repository: "juaca2004/shipping-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -227,7 +227,7 @@ user-service:
   enabled: true
   image:
     repository: "juaca2004/user-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -251,7 +251,7 @@ favourite-service:
   enabled: true
   image:
     repository: "juaca2004/favourite-service"
-    tag: "v0.3.0"
+    tag: "v0.4.0"
   replicaCount: 1
   resources:
     requests:
@@ -298,6 +298,14 @@ hpa:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 70
+#Canary
+canary:
+  enabled: true
+  weight: 10
+  image:
+    tag: "0.1.0stage"
 
-
-
+database:
+  url: "jdbc:mysql://db:3306/ecommerce_db"
+  username: "user"
+  password: "12345"

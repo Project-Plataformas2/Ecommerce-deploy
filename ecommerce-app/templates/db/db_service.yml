@@ -1,0 +1,19 @@
+{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: db
+spec:
+  selector:
+    app: db-deployment
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+  type: ClusterIP
+
+{{- end -}}

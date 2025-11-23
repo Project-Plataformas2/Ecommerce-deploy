@@ -1,0 +1,14 @@
+{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+{{- end -}}
