@@ -296,7 +296,6 @@ canary:
   weight: 10
   image:
     tag: "0.1.0stage"
-
 database:
   url: "jdbc:mysql://db:3306/ecommerce_db"
   username: "user"
