@@ -1,14 +1,73 @@
-{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") -}}
+{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: db-pvc
+  name: favourite-db-pvc
   namespace: {{ .Values.global.namespace }}
 spec:
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ "ReadWriteOnce" ]
   storageClassName: standard
   resources:
     requests:
       storage: 10Gi
-{{- end -}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: order-db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: payment-db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: product-db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shipping-db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-db-pvc
+  namespace: {{ .Values.global.namespace }}
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 10Gi
+{{- end }}

@@ -74,7 +74,6 @@ spec:
           - name: JAVA_TOOL_OPTIONS
             value: "-XX:MaxRAMPercentage=70.0"
 
-
           {{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") }}
 
           - name: SPRING_DATASOURCE_USERNAME
@@ -88,10 +87,9 @@ spec:
                 name: db-credentials
                 key: DB_PASSWORD
           - name: SPRING_DATASOURCE_URL
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: DB_URL
+            value: "jdbc:mysql://order-db:3306/order_db"
+          - name: FLYWAY_MIGRATION_ENABLED
+            value: "true"
           {{- end }}
         resources:
           requests:

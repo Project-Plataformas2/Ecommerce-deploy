@@ -1,21 +1,22 @@
-{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") -}}
+{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") }}
 
+# Favourite DB
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db-deployment
+  name: favourite-db-deployment
   namespace: {{ .Values.global.namespace }}
   labels:
-    app: db-deployment
+    app: favourite-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: db-deployment
+      app: favourite-db
   template:
     metadata:
       labels:
-        app: db-deployment
+        app: favourite-db
     spec:
       containers:
       - name: mysql
@@ -24,7 +25,7 @@ spec:
         - containerPort: 3306
         env:
         - name: MYSQL_DATABASE
-          value: "ecommerce_db"
+          value: "favourite_db"
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
@@ -43,17 +44,260 @@ spec:
         volumeMounts:
         - name: db-storage
           mountPath: /var/lib/mysql
-          subPath: mysql
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "100m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+          subPath: favourite
       volumes:
       - name: db-storage
         persistentVolumeClaim:
-          claimName: db-pvc
+          claimName: favourite-db-pvc
+---
+# Order DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-db-deployment
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: order-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-db
+  template:
+    metadata:
+      labels:
+        app: order-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: "order_db"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
+          subPath: order
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: order-db-pvc
+---
+# Payment DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-db-deployment
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: payment-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-db
+  template:
+    metadata:
+      labels:
+        app: payment-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: "payment_db"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
+          subPath: payment
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: payment-db-pvc
+---
+# Product DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-db-deployment
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: product-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-db
+  template:
+    metadata:
+      labels:
+        app: product-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: "product_db"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
+          subPath: product
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: product-db-pvc
+---
+# Shipping DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-db-deployment
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: shipping-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shipping-db
+  template:
+    metadata:
+      labels:
+        app: shipping-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: "shipping_db"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
+          subPath: shipping
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: shipping-db-pvc
+---
+# User DB
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-db-deployment
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: user-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-db
+  template:
+    metadata:
+      labels:
+        app: user-db
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          value: "user_db"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: DB_PASSWORD
+        volumeMounts:
+        - name: db-storage
+          mountPath: /var/lib/mysql
+          subPath: user
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: user-db-pvc
 
-{{- end -}}
+{{- end }}
