@@ -16,69 +16,84 @@ spec:
       labels:
         app: proxy-client
     spec:
-      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-proxy-client-sa # <-- ¡AÑADIR AQUÍ!
+      serviceAccountName: {{ include "ecommerce-app.fullname" . }}-proxy-client-sa
+
+      {{- with index .Values "proxy-client" "podSecurityContext" }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       initContainers:
-          - name: wait-for-dependencies
-            image: busybox
-            command: ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 5; done;']
+        - name: wait-for-dependencies
+          image: busybox
+          command:
+            ['sh', '-c', 'until nc -z cloud-config 9296 && nc -z service-discovery 8761; do echo waiting for dependencies; sleep 5; done;']
+
       containers:
-      - name: proxy-client
-        image: {{ index .Values "proxy-client" "image" "repository" }}:{{ index .Values "proxy-client" "image" "tag" }}
-        ports:
-          - containerPort: {{ index .Values "proxy-client" "service" "port" }}
-        env:
-          - name: SPRING_PROFILES_ACTIVE
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: SPRING_PROFILES_ACTIVE
-          - name: SPRING_ZIPKIN_BASE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: SPRING_ZIPKIN_BASE_URL
-          - name: SPRING_CONFIG_IMPORT
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: SPRING_CONFIG_IMPORT
-          - name: EUREKA_CLIENT_REGION
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_CLIENT_REGION
-          - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
-          - name: EUREKA_CLIENT_SERVICEURL_MYZONE
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_MYZONE
-          - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-          - name: EUREKA_INSTANCE_HOSTNAME
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: proxy-client.EUREKA_INSTANCE_HOSTNAME
-          - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-            valueFrom:
-              configMapKeyRef:
-                name: ecommerce-config
-                key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
-          - name: JAVA_TOOL_OPTIONS
-            value: "-XX:MaxRAMPercentage=70.0"
-        resources:
-          requests:
-            memory: {{ index .Values "proxy-client" "resources" "requests" "memory" }}
-            cpu: {{ index .Values "proxy-client" "resources" "requests" "cpu" }}
-          limits:
-            memory: {{ index .Values "proxy-client" "resources" "limits" "memory" }}
-            cpu: {{ index .Values "proxy-client" "resources" "limits" "cpu" }}
+        - name: proxy-client
+          image: {{ index .Values "proxy-client" "image" "repository" }}:{{ index .Values "proxy-client" "image" "tag" }}
+          ports:
+            - containerPort: {{ index .Values "proxy-client" "service" "port" }}
+
+          {{- with index .Values "proxy-client" "securityContext" }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: SPRING_PROFILES_ACTIVE
+            - name: SPRING_ZIPKIN_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: SPRING_ZIPKIN_BASE_URL
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: SPRING_CONFIG_IMPORT
+            - name: EUREKA_CLIENT_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: EUREKA_CLIENT_REGION
+            - name: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: EUREKA_CLIENT_AVAILABILITYZONES_DEFAULT
+            - name: EUREKA_CLIENT_SERVICEURL_MYZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: EUREKA_CLIENT_SERVICEURL_MYZONE
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+            - name: EUREKA_INSTANCE_HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: proxy-client.EUREKA_INSTANCE_HOSTNAME
+            - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: ecommerce-config
+                  key: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=70.0"
+
+          resources:
+            requests:
+              memory: {{ index .Values "proxy-client" "resources" "requests" "memory" }}
+              cpu: {{ index .Values "proxy-client" "resources" "requests" "cpu" }}
+            limits:
+              memory: {{ index .Values "proxy-client" "resources" "limits" "memory" }}
+              cpu: {{ index .Values "proxy-client" "resources" "limits" "cpu" }}
 {{- end }}

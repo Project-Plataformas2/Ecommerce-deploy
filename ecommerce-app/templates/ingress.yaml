@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: "gce"
     kubernetes.io/ingress.allow-http: "{{ .Values.ingress.allowHttp }}"
     kubernetes.io/ingress.global-static-ip-name: "ecommerce-ingress-ip-225"
-    kubernetes.io/ingress.health-check-path: "/app/actuator/health"
+    kubernetes.io/ingress.health-check-path: "app/actuator/health"
 
 spec:
   {{- if .Values.ingress.enabledTls }}

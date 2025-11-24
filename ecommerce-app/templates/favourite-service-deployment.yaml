@@ -16,6 +16,11 @@ spec:
       labels:
         app: favourite-service
     spec:
+      {{- with index .Values "favourite-service" "podSecurityContext" }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       initContainers:
         - name: wait-for-dependencies
           image: busybox
@@ -27,11 +32,21 @@ spec:
                 echo waiting for dependencies
                 sleep 5
               done
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+
       containers:
         - name: favourite-service
           image: {{ index .Values "favourite-service" "image" "repository" }}:{{ index .Values "favourite-service" "image" "tag" }}
           ports:
             - containerPort: {{ index .Values "favourite-service" "service" "port" }}
+
+          {{- with index .Values "favourite-service" "securityContext" }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
           env:
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:

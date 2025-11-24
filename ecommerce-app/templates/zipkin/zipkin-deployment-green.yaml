@@ -1,4 +1,4 @@
-{{- if (index .Values "zipkin" "enabled")}}
+{{- if (index .Values "zipkin" "enabled") }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,8 +6,9 @@ metadata:
   namespace: {{ .Values.global.namespace }}
   labels:
     app: zipkin
+    color: green
 spec:
-  replicas: {{ .Values.zipkin.green.replicaCount}}
+  replicas: {{ .Values.zipkin.green.replicaCount }}
   selector:
     matchLabels:
       app: zipkin
@@ -18,11 +19,17 @@ spec:
         app: zipkin
         color: green
     spec:
+      {{- with .Values.zipkin.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
       containers:
         - name: zipkin
           image: {{ .Values.zipkin.green.repository }}:{{ .Values.zipkin.green.tag }}
           ports:
             - containerPort: {{ .Values.zipkin.service.port }}
+
           resources:
             requests:
               memory: {{ .Values.zipkin.resources.requests.memory }}
@@ -30,4 +37,9 @@ spec:
             limits:
               memory: {{ .Values.zipkin.resources.limits.memory }}
               cpu: {{ .Values.zipkin.resources.limits.cpu }}
+
+          {{- with .Values.zipkin.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
 {{- end }}
