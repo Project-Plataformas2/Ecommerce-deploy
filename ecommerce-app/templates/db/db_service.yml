@@ -1,0 +1,67 @@
+{{- if or (eq .Values.global.namespace "stage") (eq .Values.global.namespace "prod") }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: favourite-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: favourite-db
+  ports:
+  - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: order-db
+  ports:
+  - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: payment-db
+  ports:
+  - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: product-db
+  ports:
+  - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: shipping-db
+  ports:
+  - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-db
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: user-db
+  ports:
+  - port: 3306
+{{- end }}

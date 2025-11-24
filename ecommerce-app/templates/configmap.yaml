@@ -15,6 +15,7 @@ data:
   EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
   EUREKA_CLIENT_REGISTER_WITH_EUREKA: "true"
   EUREKA_CLIENT_FETCH_REGISTRY: "true"
+  FLYWAY_MIGRATION_ENABLED: "true"
 
 # Otras configuraciones específicas de servicios pueden añadirse aquí
 
