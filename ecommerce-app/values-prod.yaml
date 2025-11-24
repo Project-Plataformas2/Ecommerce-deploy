@@ -36,7 +36,6 @@ zipkin:
     repository: "openzipkin/zipkin"
     tag: "latest"
     replicaCount: 1
-
 service-discovery:
   enabled: true
   image:
@@ -59,14 +58,12 @@ service-discovery:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
   green:
     repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
-
-
 cloud-config:
   enabled: true
   image:
@@ -90,20 +87,18 @@ cloud-config:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
   green:
     repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
-
-
 # Servicios Dependientes
 api-gateway:
   enabled: true
   image:
     repository: "juaca2004/api-gateway"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 2 # Más réplicas para testing en dev
   resources:
     requests:
@@ -123,7 +118,7 @@ proxy-client:
   enabled: true
   image:
     repository: "juaca2004/proxy-client"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -144,7 +139,7 @@ order-service:
   enabled: true
   image:
     repository: "juaca2004/order-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -165,7 +160,7 @@ payment-service:
   enabled: true
   image:
     repository: "juaca2004/payment-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -186,7 +181,7 @@ product-service:
   enabled: true
   image:
     repository: "juaca2004/product-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -207,7 +202,7 @@ shipping-service:
   enabled: true
   image:
     repository: "juaca2004/shipping-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -227,7 +222,7 @@ user-service:
   enabled: true
   image:
     repository: "juaca2004/user-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -251,7 +246,7 @@ favourite-service:
   enabled: true
   image:
     repository: "juaca2004/favourite-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -282,11 +277,8 @@ ingress:
     - secretName: api-gateway-tls
       hosts:
         - api-gateway.dev.example.com
-
 blueGreen:
   activeColor: blue # valores posibles: blue | green
-
-
 # Monitoreo (opcional en dev)
 prometheus:
   enabled: true
@@ -304,7 +296,6 @@ canary:
   weight: 10
   image:
     tag: "0.1.0stage"
-
 database:
   url: "jdbc:mysql://db:3306/ecommerce_db"
   username: "user"
