@@ -18,6 +18,11 @@ spec:
       labels:
         app: favourite-db
     spec:
+      # --- Pod Security Context ---
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -45,10 +50,16 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: favourite
+        # --- Container Security Context ---
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
           claimName: favourite-db-pvc
+
 ---
 # Order DB
 apiVersion: apps/v1
@@ -68,6 +79,10 @@ spec:
       labels:
         app: order-db
     spec:
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -95,10 +110,15 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: order
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
           claimName: order-db-pvc
+
 ---
 # Payment DB
 apiVersion: apps/v1
@@ -118,6 +138,10 @@ spec:
       labels:
         app: payment-db
     spec:
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -145,10 +169,15 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: payment
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
           claimName: payment-db-pvc
+
 ---
 # Product DB
 apiVersion: apps/v1
@@ -168,6 +197,10 @@ spec:
       labels:
         app: product-db
     spec:
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -195,10 +228,15 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: product
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
           claimName: product-db-pvc
+
 ---
 # Shipping DB
 apiVersion: apps/v1
@@ -218,6 +256,10 @@ spec:
       labels:
         app: shipping-db
     spec:
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -245,10 +287,15 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: shipping
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
           claimName: shipping-db-pvc
+
 ---
 # User DB
 apiVersion: apps/v1
@@ -268,6 +315,10 @@ spec:
       labels:
         app: user-db
     spec:
+      {{- with .Values.db.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: mysql
         image: mysql:8.0
@@ -295,6 +346,10 @@ spec:
         - name: db-storage
           mountPath: /var/lib/mysql
           subPath: user
+        {{- with .Values.db.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: db-storage
         persistentVolumeClaim:
