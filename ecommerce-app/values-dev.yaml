@@ -58,11 +58,11 @@ service-discovery:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
   green:
     repository: "juaca2004/service-discovery"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
 cloud-config:
   enabled: true
@@ -87,18 +87,18 @@ cloud-config:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
   green:
     repository: "juaca2004/cloud-config"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
     replicaCount: 1
 # Servicios Dependientes
 api-gateway:
   enabled: true
   image:
     repository: "juaca2004/api-gateway"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 2 # Más réplicas para testing en dev
   resources:
     requests:
@@ -118,7 +118,7 @@ proxy-client:
   enabled: true
   image:
     repository: "juaca2004/proxy-client"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -139,7 +139,7 @@ order-service:
   enabled: true
   image:
     repository: "juaca2004/order-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -160,7 +160,7 @@ payment-service:
   enabled: true
   image:
     repository: "juaca2004/payment-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -181,7 +181,7 @@ product-service:
   enabled: true
   image:
     repository: "juaca2004/product-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -202,7 +202,7 @@ shipping-service:
   enabled: true
   image:
     repository: "juaca2004/shipping-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -222,7 +222,7 @@ user-service:
   enabled: true
   image:
     repository: "juaca2004/user-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
@@ -246,7 +246,7 @@ favourite-service:
   enabled: true
   image:
     repository: "juaca2004/favourite-service"
-    tag: "v0.4.0"
+    tag: "v1.2.3"
   replicaCount: 1
   resources:
     requests:
