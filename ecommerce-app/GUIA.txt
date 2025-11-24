@@ -17,7 +17,6 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # Crear namespace (ignorar si ya existe)
 kubectl create ns monitoring || true
 
-kubectl create ns monitoring
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
