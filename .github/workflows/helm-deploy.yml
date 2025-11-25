@@ -1,0 +1,70 @@
+name: Helm Deploy E-Commerce
+
+on:
+  repository_dispatch:
+    types: [update-image-tags]  # Coincide con el event-type de Terraform
+
+jobs:
+  helm:
+    runs-on: ubuntu-latest
+    env:
+      NAMESPACE_MONITORING: monitoring
+      NAMESPACE_DEV: prod
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Read STATIC_IP from Terraform
+        run: |
+          echo "STATIC_IP from Terraform repo: ${{ github.event.client_payload.STATIC_IP }}"
+          echo "STATIC_IP=${{ github.event.client_payload.STATIC_IP }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssl kubectl helm
+
+      - name: Remove old TLS and create new self-signed cert
+        working-directory: ./ecommerce-app/files
+        run: |
+          rm -f tls.*
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+            -keyout tls.key \
+            -out tls.crt \
+            -subj "/CN=${STATIC_IP}/O=SelfSignedProject"
+
+      - name: Create monitoring namespace
+        run: kubectl create ns $NAMESPACE_MONITORING || true
+
+      - name: Install Prometheus & Grafana
+        run: |
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+            -n $NAMESPACE_MONITORING \
+            -f ecommerce-app/monitoring-values.yaml
+          kubectl wait --for=condition=Ready pods --all -n $NAMESPACE_MONITORING --timeout=360s
+          kubectl get pods -n $NAMESPACE_MONITORING
+
+      - name: Install Loki & Tempo
+        run: |
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+          helm upgrade --install loki-stack grafana/loki-stack \
+            -n $NAMESPACE_MONITORING \
+            -f ecommerce-app/values-loki.yaml
+          helm upgrade --install tempo grafana/tempo \
+            -n $NAMESPACE_MONITORING \
+            --set traces.otlp.grpc.enabled=true \
+            --set traces.otlp.http.enabled=true \
+            --set tempoQuery.enabled=true
+
+      - name: Deploy MyApp
+        run: |
+          helm upgrade --install myapp ecommerce-app/ \
+            -f ecommerce-app/values-prod.yaml \
+            --namespace $NAMESPACE_DEV --create-namespace
+
+      - name: Restart Grafana Pod
+        run: kubectl delete pod -n $NAMESPACE_MONITORING -l app.kubernetes.io/name=grafana
