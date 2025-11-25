@@ -1,9 +1,9 @@
 name: Helm Deploy E-Commerce
-
+          
 on:
   repository_dispatch:
     types: [terraform-finished]  
-
+          
 jobs:
   helm:
     runs-on: ubuntu-latest
@@ -13,40 +13,54 @@ jobs:
       CLUSTER_NAME: mygpccluster
       REGION: us-central1
       PROJECT_ID: plataformas2-356563
-
+          
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
+          
       - name: Read STATIC_IP from Terraform
         run: |
           echo "STATIC_IP from Terraform repo: ${{ github.event.client_payload.STATIC_IP }}"
           echo "STATIC_IP=${{ github.event.client_payload.STATIC_IP }}" >> $GITHUB_ENV
-
-      - name: Install dependencies and gke-gcloud-auth-plugin
+          
+      - name: Install Google Cloud CLI, Kubectl, and GKE Auth Plugin (CORREGIDO)
+        # Este paso ahora sigue las mejores prácticas de Google Cloud para instalar el CLI y sus componentes.
         run: |
+          # 1. Instalar herramientas base y dependencias para APT
           sudo apt-get update
-          sudo apt-get install -y openssl kubectl curl google-cloud-cli
-          # Instalar el plugin GKE
-          gcloud components install gke-gcloud-auth-plugin
+          sudo apt-get install -y apt-transport-https ca-certificates gnupg curl openssl
+          
+          # 2. IMPORTAR CLAVE PÚBLICA de Google Cloud (Método moderno)
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+            sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+            
+          # 3. AÑADIR REPOSITORIO de Google Cloud
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | \
+            sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            
+          # 4. ACTUALIZAR e INSTALAR google-cloud-cli y el plugin GKE
+          sudo apt-get update
+          sudo apt-get install -y google-cloud-cli kubectl **google-cloud-cli-gke-gcloud-auth-plugin**
+          
+          # 5. Exportar variable de entorno para usar el plugin
           echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-
+          
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
           version: v3.17.2
-
+          
       - name: Authenticate GCP
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-
+          
       - name: Get GKE credentials
         run: |
           gcloud container clusters get-credentials $CLUSTER_NAME \
             --region $REGION \
             --project $PROJECT_ID
-
+          
       - name: Remove old TLS and create new self-signed cert
         working-directory: ./ecommerce-app/files
         run: |
@@ -58,7 +72,7 @@ jobs:
 
       - name: Create monitoring namespace
         run: kubectl create ns $NAMESPACE_MONITORING || true
-
+          
       - name: Install Prometheus & Grafana
         run: |
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -68,7 +82,7 @@ jobs:
             -f ecommerce-app/monitoring-values.yaml
           kubectl wait --for=condition=Ready pods --all -n $NAMESPACE_MONITORING --timeout=360s
           kubectl get pods -n $NAMESPACE_MONITORING
-
+          
       - name: Install Loki & Tempo
         run: |
           helm repo add grafana https://grafana.github.io/helm-charts
@@ -81,12 +95,12 @@ jobs:
             --set traces.otlp.grpc.enabled=true \
             --set traces.otlp.http.enabled=true \
             --set tempoQuery.enabled=true
-
+          
       - name: Deploy MyApp
         run: |
           helm upgrade --install myapp ecommerce-app/ \
             -f ecommerce-app/values-prod.yaml \
             --namespace $NAMESPACE_DEV --create-namespace
-
+          
       - name: Restart Grafana Pod
         run: kubectl delete pod -n $NAMESPACE_MONITORING -l app.kubernetes.io/name=grafana
