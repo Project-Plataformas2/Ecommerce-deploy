@@ -2,7 +2,7 @@ name: Helm Deploy E-Commerce
 
 on:
   repository_dispatch:
-    types: [update-image-tags]  # Coincide con el event-type de Terraform
+    types: [terraform-finished]  # Coincide con el event-type de Terraform
 
 jobs:
   helm:
