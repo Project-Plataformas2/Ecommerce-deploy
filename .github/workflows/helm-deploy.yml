@@ -26,7 +26,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y openssl kubectl helm
+          sudo apt-get install -y openssl kubectl curl
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.17.2  # Puedes cambiar a la versión que necesites
 
       - name: Authenticate GCP
         uses: google-github-actions/auth@v1
