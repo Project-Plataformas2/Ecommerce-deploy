@@ -1,0 +1,14 @@
+# templates/role/cloud-config-role.yaml
+{{- if index .Values "cloud-config" "enabled" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cloud-config-reader
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+rules:
+- apiGroups: [""] 
+  resources: ["configmaps", "secrets"] # Necesita leer la configuración
+  verbs: ["get", "list", "watch"]
+{{- end }}

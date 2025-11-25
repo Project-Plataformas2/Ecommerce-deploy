@@ -1,0 +1,18 @@
+# templates/rolebinding/service-discovery-rb.yaml
+{{- if index .Values "service-discovery" "enabled" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: service-discovery-binding
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "ecommerce-app.fullname" . }}-service-discovery-sa
+  namespace: {{ .Values.global.namespace }}
+roleRef:
+  kind: Role
+  name: service-discovery-watcher
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
