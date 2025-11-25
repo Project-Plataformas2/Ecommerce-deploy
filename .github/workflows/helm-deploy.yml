@@ -23,15 +23,17 @@ jobs:
           echo "STATIC_IP from Terraform repo: ${{ github.event.client_payload.STATIC_IP }}"
           echo "STATIC_IP=${{ github.event.client_payload.STATIC_IP }}" >> $GITHUB_ENV
 
-      - name: Install dependencies
+      - name: Install dependencies and gke-gcloud-auth-plugin
         run: |
           sudo apt-get update
-          sudo apt-get install -y openssl kubectl curl google-cloud-sdk-gke-gcloud-auth-plugin
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: v3.17.2
+          sudo apt-get install -y openssl kubectl curl google-cloud-sdk
+          # Activar e instalar el plugin GKE
+          gcloud components install gke-gcloud-auth-plugin
+          echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+            - name: Install Helm
+              uses: azure/setup-helm@v3
+              with:
+                version: v3.17.2
 
       - name: Enable GKE auth plugin
         run: echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
