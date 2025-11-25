@@ -1,27 +1,35 @@
 name: Test GKE Auth Plugin Installation
-
+          
 on:
   workflow_dispatch:   
-
+          
 jobs:
   test-install:
     runs-on: ubuntu-latest
-
+          
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Install dependencies and GKE auth plugin
+          
+      - name: Install dependencies and GKE auth plugin (CORREGIDO)
         run: |
           sudo apt-get update
-          sudo apt-get install -y openssl kubectl curl google-cloud-cli google-cloud-cli-gke-gcloud-auth-plugin
+          
+          # 1. Instala el CLI de Google Cloud usando el nombre de paquete correcto
+          sudo apt-get install -y openssl kubectl curl **google-cloud-cli**
+          
+          # 2. Instala el plugin de GKE como un componente de gcloud (el método correcto)
+          **gcloud components install gke-gcloud-auth-plugin**
+          
           echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-
+          
       - name: Verify installations
         run: |
           echo "Checking versions..."
           kubectl version --client
           gcloud version
+          
+          # Verifica la existencia del binario del plugin
           if command -v gke-gcloud-auth-plugin >/dev/null 2>&1; then
             echo "✅ gke-gcloud-auth-plugin is installed!"
           else
