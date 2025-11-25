@@ -36,21 +36,20 @@ zipkin:
     repository: "openzipkin/zipkin"
     tag: "latest"
     replicaCount: 1
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
-
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 service-discovery:
   enabled: true
   image:
@@ -73,27 +72,26 @@ service-discovery:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/service-discovery"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
     replicaCount: 1
   green:
     repository: "juaca2004/service-discovery"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
     replicaCount: 1
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
-
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 cloud-config:
   enabled: true
   image:
@@ -117,32 +115,32 @@ cloud-config:
     cpuUtilization: 60
   blue:
     repository: "juaca2004/cloud-config"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
     replicaCount: 1
   green:
     repository: "juaca2004/cloud-config"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
     replicaCount: 1
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Servicios Dependientes
 api-gateway:
   enabled: true
   image:
     repository: "juaca2004/api-gateway"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 2 # Más réplicas para testing en dev
   resources:
     requests:
@@ -158,26 +156,25 @@ api-gateway:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
-
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 proxy-client:
   enabled: true
   image:
     repository: "juaca2004/proxy-client"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -193,26 +190,26 @@ proxy-client:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 order-service:
   enabled: true
   image:
     repository: "juaca2004/order-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -228,26 +225,26 @@ order-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 payment-service:
   enabled: true
   image:
     repository: "juaca2004/payment-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -263,26 +260,26 @@ payment-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 product-service:
   enabled: true
   image:
     repository: "juaca2004/product-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -298,26 +295,26 @@ product-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Repite para los demás servicios dependientes (order-service, payment-service, etc.)
 shipping-service:
   enabled: true
   image:
     repository: "juaca2004/shipping-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -333,26 +330,25 @@ shipping-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
-
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 user-service:
   enabled: true
   image:
     repository: "juaca2004/user-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -372,26 +368,25 @@ user-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
-
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 favourite-service:
   enabled: true
   image:
     repository: "juaca2004/favourite-service"
-    tag: "v1.2.3"
+    tag: "v1.2.4"
   replicaCount: 1
   resources:
     requests:
@@ -407,20 +402,20 @@ favourite-service:
     minReplicas: 1
     maxReplicas: 2
     cpuUtilization: 60
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: false
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
 # Configuración de Ingress (para api-gateway, expuesto externamente)
 ingress:
   enabled: true
@@ -459,20 +454,18 @@ database:
   url: "jdbc:mysql://db:3306/ecommerce_db"
   username: "user"
   password: "12345"
-
-
 db:
-  podSecurityContext: 
+  podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
     fsGroup: 1000
     seccompProfile:
       type: RuntimeDefault
-  securityContext: 
-      capabilities:
-        drop:
+  securityContext:
+    capabilities:
+      drop:
         - ALL
-      readOnlyRootFilesystem: true
-      runAsNonRoot: true
-      runAsUser: 1000
-      allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    allowPrivilegeEscalation: false
