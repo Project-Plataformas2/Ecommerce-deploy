@@ -2,7 +2,7 @@ name: Helm Deploy E-Commerce
 
 on:
   repository_dispatch:
-    types: [terraform-finished]  # Coincide con el event-type de Terraform
+    types: [terraform-finished]  
 
 jobs:
   helm:
@@ -10,6 +10,9 @@ jobs:
     env:
       NAMESPACE_MONITORING: monitoring
       NAMESPACE_DEV: prod
+      CLUSTER_NAME: mygpccluster
+      REGION: us-central1
+      PROJECT_ID: plataformas2-356563
 
     steps:
       - name: Checkout repo
@@ -24,6 +27,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openssl kubectl helm
+
+      - name: Authenticate GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Get GKE credentials
+        run: |
+          gcloud container clusters get-credentials $CLUSTER_NAME \
+            --region $REGION \
+            --project $PROJECT_ID
 
       - name: Remove old TLS and create new self-signed cert
         working-directory: ./ecommerce-app/files
