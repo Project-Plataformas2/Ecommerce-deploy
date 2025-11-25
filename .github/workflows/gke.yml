@@ -11,22 +11,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
           
-      - name: Install dependencies and gke-gcloud-auth-plugin
+      - name: Install Google Cloud CLI, Kubectl, and GKE Auth Plugin
         run: |
+          # 0. Instalar herramientas base
           sudo apt-get update
+          sudo apt-get install -y apt-transport-https ca-certificates gnupg curl openssl
           
-          # 1. Instala el CLI de Google Cloud
-          sudo apt-get install -y openssl kubectl curl google-cloud-cli
+          # 1. IMPORTAR CLAVE PÚBLICA (Método moderno de Google: Debian 9+/Ubuntu 18.04+)
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+            sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+            
+          # 2. AÑADIR REPOSITORIO DE GOOGLE CLOUD (Usando signed-by para seguridad)
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | \
+            sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            
+          # 3. ACTUALIZAR E INSTALAR EL CLI PRINCIPAL (google-cloud-cli)
+          sudo apt-get update
+          sudo apt-get install -y google-cloud-cli
           
-          # 2. Carga el entorno (PATH) del gcloud CLI para que el shell lo encuentre
-          # Esto es crucial para solucionar 'gcloud: command not found'
-          source /etc/profile.d/google-cloud-cli.sh
+          # 4. INSTALAR KUBECTL (Componente esencial que no viene con el CLI principal)
+          sudo apt-get install -y kubectl
           
-          # 3. Instala el plugin de GKE como un componente de gcloud
-          gcloud components install gke-gcloud-auth-plugin
+          # 5. INSTALAR EL PLUGIN DE AUTENTICACIÓN GKE (Componente adicional)
+          # NOTA: La documentación menciona apt-get install google-cloud-sdk-gke-gcloud-auth-plugin,
+          # pero este nombre a menudo falla o es inconsistente. Usaremos el nombre oficial:
+          sudo apt-get install -y google-cloud-cli-gke-gcloud-auth-plugin
           
+          # 6. EXPORTAR VARIABLE (Para usar el plugin de forma predeterminada)
           echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-          
       - name: Verify installations
         run: |
           echo "Checking versions..."
