@@ -11,15 +11,19 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
           
-      - name: Install dependencies and GKE auth plugin (CORREGIDO)
+      - name: Install dependencies and gke-gcloud-auth-plugin
         run: |
           sudo apt-get update
           
-          # 1. Instala el CLI de Google Cloud usando el nombre de paquete correcto
-          sudo apt-get install -y openssl kubectl curl **google-cloud-cli**
+          # 1. Instala el CLI de Google Cloud
+          sudo apt-get install -y openssl kubectl curl google-cloud-cli
           
-          # 2. Instala el plugin de GKE como un componente de gcloud (el método correcto)
-          **gcloud components install gke-gcloud-auth-plugin**
+          # 2. Carga el entorno (PATH) del gcloud CLI para que el shell lo encuentre
+          # Esto es crucial para solucionar 'gcloud: command not found'
+          source /etc/profile.d/google-cloud-cli.sh
+          
+          # 3. Instala el plugin de GKE como un componente de gcloud
+          gcloud components install gke-gcloud-auth-plugin
           
           echo "export USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
           
