@@ -2,7 +2,7 @@ from locust import HttpUser, task, between
 
 # ¡HOST CONFIGURADO!
 # Esta es la única variable que necesitas cambiar si la IP de tu Ingress cambia.
-INGRESS_HOST = "http://136.110.221.98"
+INGRESS_HOST = "http://34.107.210.94"
 
 class EcommerceIngressUser(HttpUser):
     # Definimos el host principal como la IP/DNS de nuestro Ingress

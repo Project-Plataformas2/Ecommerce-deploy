@@ -1,0 +1,18 @@
+# templates/rolebinding/cloud-config-rb.yaml
+{{- if index .Values "cloud-config" "enabled" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cloud-config-binding
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "ecommerce-app.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "ecommerce-app.fullname" . }}-cloud-config-sa
+  namespace: {{ .Values.global.namespace }}
+roleRef:
+  kind: Role
+  name: cloud-config-reader
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
